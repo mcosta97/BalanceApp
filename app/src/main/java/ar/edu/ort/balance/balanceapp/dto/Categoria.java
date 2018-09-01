@@ -5,16 +5,16 @@ import ar.edu.ort.balance.balanceapp.utils.TipoMovimiento;
 public class Categoria {
     private int id;
     private String nombre;
-    private String descripcion;
+    private String fecha;
     private double total;
     private TipoMovimiento tipoMovimiento;
 
     public Categoria() {}
 
-    public Categoria(int id, String nombre, String descripcion, double total, TipoMovimiento tipoMovimiento) {
+    public Categoria(int id, String nombre, String fecha, double total, TipoMovimiento tipoMovimiento) {
         this.id = id;
         this.nombre = nombre;
-        this.descripcion = descripcion;
+        this.fecha = fecha;
         this.total = total;
         this.tipoMovimiento = tipoMovimiento;
     }
@@ -35,12 +35,12 @@ public class Categoria {
         this.nombre = nombre;
     }
 
-    public String getDescripcion() {
-        return descripcion;
+    public String getFecha() {
+        return fecha;
     }
 
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
+    public void setFecha(String fecha) {
+        this.fecha = fecha;
     }
 
     public double getTotal() {
