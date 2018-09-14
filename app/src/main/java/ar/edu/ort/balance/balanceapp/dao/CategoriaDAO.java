@@ -5,8 +5,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 
@@ -18,7 +16,6 @@ import ar.edu.ort.balance.balanceapp.utils.TipoMovimiento;
 
 public class CategoriaDAO {
 
-    private static final Logger logger = LogManager.getLogger("CategoriaDAO");
     private SqliteDb conexion;
     private SQLiteDatabase database;
 
@@ -50,7 +47,7 @@ public class CategoriaDAO {
             }
             cursor.close();
         } catch (Exception ex) {
-            logger.error("Error al obtener categorias: " + ex.getMessage());
+            ex.printStackTrace();
             return null;
         }
 
@@ -77,7 +74,7 @@ public class CategoriaDAO {
             database.insert(DbConst.TABLA_CATEGORIA, null, valores);
             database.close();
         } catch (Exception ex) {
-            logger.error("Error al insertar categoria: " + ex.getMessage());
+            ex.printStackTrace();
             pudo = false;
         }
 
@@ -105,7 +102,7 @@ public class CategoriaDAO {
             database.update(DbConst.TABLA_CATEGORIA, valores, where, null);
             database.close();
         } catch (Exception ex) {
-            logger.error("Error al editar categoria: " + ex.getMessage());
+            ex.printStackTrace();
             pudo = false;
         }
 
@@ -126,11 +123,10 @@ public class CategoriaDAO {
             database.delete(DbConst.TABLA_CATEGORIA, where, null);
             database.close();
         } catch (Exception ex) {
-            logger.error("Error al eliminar categoria: " + ex.getMessage());
+            ex.printStackTrace();
             pudo = false;
         }
 
         return pudo;
     }
-
 }

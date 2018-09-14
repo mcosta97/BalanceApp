@@ -5,8 +5,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 
@@ -18,7 +16,6 @@ import ar.edu.ort.balance.balanceapp.utils.TipoMovimiento;
 
 public class UsuarioDAO {
 
-    private static final Logger logger = LogManager.getLogger("UsuarioDAO");
     private SqliteDb conexion;
     private SQLiteDatabase database;
     private CategoriaDAO categoriaDAO;
@@ -47,11 +44,11 @@ public class UsuarioDAO {
                 usuario.setUser(cursor.getString(cursor.getColumnIndex(DbConst.CAMPO_USUARIO_USER)));
                 usuario.setPass(cursor.getString(cursor.getColumnIndex(DbConst.CAMPO_USUARIO_PASS)));
                 usuario.setMail(cursor.getString(cursor.getColumnIndex(DbConst.CAMPO_USUARIO_MAIL)));
-                usuario.setCategorias(categoriaDAO.obtenerCategorias());
+                usuario.setCategorias(categoriaDAO.obtenerCategorias(usuario));
             }
             cursor.close();
         } catch (Exception ex) {
-            logger.error("Error al obtener categorias: " + ex.getMessage());
+            ex.printStackTrace();
             return usuario;
         }
 
@@ -76,7 +73,7 @@ public class UsuarioDAO {
             database.insert(DbConst.TABLA_USUARIO, null, valores);
             database.close();
         } catch (Exception ex) {
-            logger.error("Error al insertar usuario: " + ex.getMessage());
+            ex.printStackTrace();
             pudo = false;
         }
 
@@ -106,7 +103,7 @@ public class UsuarioDAO {
             database.delete(DbConst.TABLA_USUARIO, where, null);
             database.close();
         } catch (Exception ex) {
-            logger.error("Error al eliminar usuario: " + ex.getMessage());
+            ex.printStackTrace();
             pudo = false;
         }
 

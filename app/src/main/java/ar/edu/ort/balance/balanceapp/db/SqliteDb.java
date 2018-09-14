@@ -8,12 +8,27 @@ import ar.edu.ort.balance.balanceapp.utils.DbConst;
 
 public class SqliteDb extends SQLiteOpenHelper {
 
-    private final String CREATE_SQL = "CREATE TABLE " + DbConst.TABLA_CATEGORIA + " (" +
+    private final String TABLA_CATEGORIA_SQL = "CREATE TABLE IF NOT EXISTS " + DbConst.TABLA_CATEGORIA + " (" +
                                         DbConst.CAMPO_CATEGORIA_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                                         DbConst.CAMPO_CATEGORIA_NOMBRE + " TEXT, " +
-                                        DbConst.CAMPO_CATEGORIA_DESCRIPCION +  " TEXT, " +
+                                        DbConst.CAMPO_CATEGORIA_USUARIO_ID + " TEXT, " +
+                                        DbConst.CAMPO_CATEGORIA_FECHA +  " TEXT, " +
                                         DbConst.CAMPO_CATEGORIA_TIPO + " INTEGER, " +
                                         DbConst.CAMPO_CATEGORIA_VALOR + " REAL)";
+
+    private final String TABLA_USUARIO_SQL = "CREATE TABLE IF NOT EXISTS " + DbConst.TABLA_USUARIO + " (" +
+                                        DbConst.CAMPO_USUARIO_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                                        DbConst.CAMPO_USUARIO_USER + " TEXT, " +
+                                        DbConst.CAMPO_USUARIO_PASS + " TEXT, " +
+                                        DbConst.CAMPO_USUARIO_MAIL + " TEXT)";
+
+    private final String TABLA_MOVIMIENTO_SQL = "CREATE TABLE IF NOT EXISTS " + DbConst.TABLA_MOVIMIENTO + " (" +
+                                        DbConst.CAMPO_MOVIMIENTO_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                                        DbConst.CAMPO_MOVIMIENTO_USUARIO_ID + " INTEGER, " +
+                                        DbConst.CAMPO_MOVIMIENTO_CATEGORIA_ID + " INTEGER, " +
+                                        DbConst.CAMPO_MOVIMIENTO_NOMBRE + " TEXT, " +
+                                        DbConst.CAMPO_MOVIMIENTO_FECHA + " TEXT, " +
+                                        DbConst.CAMPO_MOVIMIENTO_VALOR + " REAL)";
 
     public SqliteDb(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
@@ -21,7 +36,18 @@ public class SqliteDb extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL(CREATE_SQL);
+        db.beginTransaction();
+        try {
+            db.execSQL(TABLA_CATEGORIA_SQL);
+            db.execSQL(TABLA_USUARIO_SQL);
+            db.execSQL(TABLA_MOVIMIENTO_SQL);
+            db.setTransactionSuccessful();
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        } finally {
+            db.endTransaction();
+        }
+
     }
 
     @Override

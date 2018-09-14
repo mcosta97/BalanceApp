@@ -41,26 +41,26 @@ public class BalanceService {
     }
 
     public boolean crearMovimiento(Movimiento movimiento) {
-        return false;
+        return movimientoDAO.insertar(movimiento);
     }
 
     public boolean editarMovimiento(Movimiento movimiento) {
-        return false;
+        return movimientoDAO.editar(movimiento);
     }
 
     public boolean borrarMovimiento(Movimiento movimiento) {
-        return false;
+        return movimientoDAO.eliminar(movimiento);
     }
 
     public boolean crearCategoria(Categoria categoria) {
-        return false;
+        return categoriaDAO.insertar(categoria);
     }
 
     public boolean editarCategoria(Categoria categoria) {
-        return false;
+        return categoriaDAO.editar(categoria);
     }
 
     public boolean borrarCategoria(Categoria categoria) {
-        return false;
+        return categoriaDAO.eliminar(categoria);
     }
 }
