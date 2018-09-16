@@ -25,9 +25,10 @@ public class BalanceService {
         return usuarioDAO.login(user, pass);
     }
 
-    public boolean registrar(String user, String pass, String mail) {
+    public boolean registrar(String nombre, String apellido, String pass, String mail) {
         Usuario nuevoUsuario = new Usuario();
-        nuevoUsuario.setUser(user);
+        nuevoUsuario.setNombre(nombre);
+        nuevoUsuario.setApellido(apellido);
         nuevoUsuario.setPass(pass);
         nuevoUsuario.setMail(mail);
 

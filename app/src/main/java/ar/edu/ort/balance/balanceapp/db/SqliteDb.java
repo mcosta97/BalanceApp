@@ -18,7 +18,8 @@ public class SqliteDb extends SQLiteOpenHelper {
 
     private final String TABLA_USUARIO_SQL = "CREATE TABLE IF NOT EXISTS " + DbConst.TABLA_USUARIO + " (" +
                                         DbConst.CAMPO_USUARIO_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                                        DbConst.CAMPO_USUARIO_USER + " TEXT, " +
+                                        DbConst.CAMPO_USUARIO_NOMBRE + " TEXT, " +
+                                        DbConst.CAMPO_USUARIO_APELLIDO + " TEXT, " +
                                         DbConst.CAMPO_USUARIO_PASS + " TEXT, " +
                                         DbConst.CAMPO_USUARIO_MAIL + " TEXT)";
 

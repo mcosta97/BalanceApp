@@ -1,10 +1,12 @@
 package ar.edu.ort.balance.balanceapp.dto;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Usuario {
+public class Usuario implements Serializable {
     private int id;
-    private String user;
+    private String nombre;
+    private String apellido;
     private String pass;
     private String mail;
     private ArrayList<Movimiento> movimientos;
@@ -15,8 +17,9 @@ public class Usuario {
         categorias = new ArrayList<>();
     }
 
-    public Usuario(String user, String pass, String mail, ArrayList<Movimiento> movimientos, ArrayList<Categoria> categorias) {
-        this.user = user;
+    public Usuario(String nombre, String apellido, String mail, String pass, ArrayList<Movimiento> movimientos, ArrayList<Categoria> categorias) {
+        this.nombre = nombre;
+        this.apellido = apellido;
         this.pass = pass;
         this.mail = mail;
         this.movimientos = movimientos;
@@ -31,13 +34,13 @@ public class Usuario {
         this.id = id;
     }
 
-    public String getUser() {
-        return user;
-    }
+    public String getNombre() { return nombre; }
 
-    public void setUser(String user) {
-        this.user = user;
-    }
+    public void setNombre(String nombre) { this.nombre = nombre; }
+
+    public String getApellido() { return apellido; }
+
+    public void setApellido(String apellido) { this.apellido = apellido; }
 
     public String getPass() {
         return pass;

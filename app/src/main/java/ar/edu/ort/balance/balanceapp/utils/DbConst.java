@@ -17,7 +17,8 @@ public class DbConst {
     //Parametros de la Tabla USUARIO
     public static final String TABLA_USUARIO = "Usuario";
     public static final String CAMPO_USUARIO_ID = "USUARIO_ID";
-    public static final String CAMPO_USUARIO_USER = "USER";
+    public static final String CAMPO_USUARIO_NOMBRE = "NOMBRE";
+    public static final String CAMPO_USUARIO_APELLIDO = "APELLIDO";
     public static final String CAMPO_USUARIO_PASS = "PASS";
     public static final String CAMPO_USUARIO_MAIL = "MAIL";
 

@@ -1,8 +1,9 @@
 package ar.edu.ort.balance.balanceapp.dto;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Movimiento {
+public class Movimiento implements Serializable {
     private int id;
     private String nombre;
     private Date fecha;

@@ -1,8 +1,11 @@
 package ar.edu.ort.balance.balanceapp;
 
+import android.support.v4.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -12,8 +15,18 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
+
+import ar.edu.ort.balance.balanceapp.dto.Usuario;
+import ar.edu.ort.balance.balanceapp.fragments.EstadisticaFragment;
+import ar.edu.ort.balance.balanceapp.fragments.GastosFragment;
+import ar.edu.ort.balance.balanceapp.fragments.IngresosFragment;
+import ar.edu.ort.balance.balanceapp.fragments.InicioFragment;
+import ar.edu.ort.balance.balanceapp.utils.GenConst;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+
+    private Usuario usuario = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,7 +39,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                Snackbar.make(view, "Bienvenido", Snackbar.LENGTH_LONG).setAction("Action", null).show();
             }
         });
 
@@ -37,6 +50,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        usuario = new Usuario("Primer","Usuario","primerusuario@test.com","pass1234",null,null);
+        recuperarUsuario(navigationView);
     }
 
     @Override
@@ -51,24 +67,25 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
+        //Apartado para crear menu
         return true;
+    }
+
+    private void recuperarUsuario(NavigationView navigationView) {
+        Intent i = getIntent();
+        //TODO: sacar cuando este andando el Login
+        //usuario = (Usuario) i.getSerializableExtra(GenConst.PARAMETRO_USUARIO);
+        View view = navigationView.getHeaderView(0);
+        TextView userName = (TextView) view.findViewById(R.id.userName);
+        TextView userMail = (TextView) view.findViewById(R.id.userMail);
+        userName.setText(usuario.getNombre() + " " + usuario.getApellido());
+        userMail.setText(usuario.getMail());
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
+        //Apartado para mostrar opciones del item seleccionado
+        return true;
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -77,23 +94,35 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        Fragment fragment = null;
+        Intent intent = null;
 
-        } else if (id == R.id.nav_slideshow) {
+        if (id == R.id.nav_inicio) {
+            fragment = new InicioFragment();
+        } else if (id == R.id.nav_gastos) {
+            fragment = new GastosFragment();
+        } else if (id == R.id.nav_ingresos) {
+            fragment = new IngresosFragment();
+        } else if (id == R.id.nav_estadistica) {
+            fragment = new EstadisticaFragment();
+        } else if (id == R.id.nav_perfil) {
+            intent = new Intent(MainActivity.this, PerfilActivity.class);
+        } else if (id == R.id.nav_cerrar) {
+            intent = new Intent(MainActivity.this, LoginActivity.class);
+        }
 
-        } else if (id == R.id.nav_manage) {
+        if (fragment != null) {
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.replace(R.id.content_frame, fragment);
+            ft.commit();
+        }
 
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
+        if (intent != null) {
+            startActivity(intent);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-    //git test commit
 }

@@ -1,8 +1,10 @@
 package ar.edu.ort.balance.balanceapp.dto;
 
+import java.io.Serializable;
+
 import ar.edu.ort.balance.balanceapp.utils.TipoMovimiento;
 
-public class Categoria {
+public class Categoria implements Serializable {
     private int id;
     private String nombre;
     private String fecha;
