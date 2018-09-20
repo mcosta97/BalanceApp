@@ -17,6 +17,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+
 import ar.edu.ort.balance.balanceapp.dto.Usuario;
 import ar.edu.ort.balance.balanceapp.fragments.EstadisticaFragment;
 import ar.edu.ort.balance.balanceapp.fragments.GastosFragment;
@@ -51,8 +53,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        usuario = new Usuario("Primer","Usuario","primerusuario@test.com","pass1234",null,null);
         recuperarUsuario(navigationView);
+        setFragment(R.id.nav_inicio);
     }
 
     @Override
@@ -72,14 +74,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void recuperarUsuario(NavigationView navigationView) {
-        Intent i = getIntent();
-        //TODO: sacar cuando este andando el Login
-        //usuario = (Usuario) i.getSerializableExtra(GenConst.PARAMETRO_USUARIO);
-        View view = navigationView.getHeaderView(0);
-        TextView userName = (TextView) view.findViewById(R.id.userName);
-        TextView userMail = (TextView) view.findViewById(R.id.userMail);
-        userName.setText(usuario.getNombre() + " " + usuario.getApellido());
-        userMail.setText(usuario.getMail());
+        Gson gson = new Gson();
+        String usuarioJson = getIntent().getStringExtra(GenConst.PARAMETRO_USUARIO);
+        usuario = gson.fromJson(usuarioJson, Usuario.class);
+
+        if (usuario != null) {
+            View view = navigationView.getHeaderView(0);
+            TextView userName = (TextView) view.findViewById(R.id.userName);
+            TextView userMail = (TextView) view.findViewById(R.id.userMail);
+            userName.setText(usuario.getNombre() + " " + usuario.getApellido());
+            userMail.setText(usuario.getMail());
+        }
     }
 
     @Override
@@ -88,12 +93,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
+        setFragment(id);
 
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
+    }
+
+    private void setFragment(int id) {
         Fragment fragment = null;
         Intent intent = null;
 
@@ -120,9 +131,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (intent != null) {
             startActivity(intent);
         }
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
     }
+
+
 }

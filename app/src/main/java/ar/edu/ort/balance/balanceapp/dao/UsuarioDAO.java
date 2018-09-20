@@ -33,7 +33,6 @@ public class UsuarioDAO {
             String[] columns = {DbConst.CAMPO_USUARIO_ID, DbConst.CAMPO_USUARIO_NOMBRE, DbConst.CAMPO_USUARIO_APELLIDO, DbConst.CAMPO_USUARIO_PASS, DbConst.CAMPO_USUARIO_MAIL};
             Cursor cursor = database.query(DbConst.TABLA_USUARIO, columns, "user=? and pass=?", new String[] {user, pass}, null, null, null);
 
-
             while(cursor.moveToNext()) {
                 usuario = new Usuario();
                 usuario.setId(cursor.getInt(cursor.getColumnIndex(DbConst.CAMPO_USUARIO_ID)));

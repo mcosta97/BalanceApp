@@ -20,6 +20,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -29,6 +30,8 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,7 +51,6 @@ public class LoginActivity extends AppCompatActivity  {
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
-    private UserLoginTask mAuthTask = null;
     private BalanceService balanceService = null;
 
     // UI references.
@@ -61,6 +63,9 @@ public class LoginActivity extends AppCompatActivity  {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        balanceService = new BalanceService(getApplicationContext());
+
         // Set up the login form.
         mEmailView = (EditText) findViewById(R.id.email);
 
@@ -94,8 +99,6 @@ public class LoginActivity extends AppCompatActivity  {
      * errors are presented and no actual login attempt is made.
      */
     private void attemptLogin() {
-        if (mAuthTask != null) return;
-
         // Reset errors.
         mEmailView.setError(null);
         mPasswordView.setError(null);
@@ -133,9 +136,29 @@ public class LoginActivity extends AppCompatActivity  {
             focusView.requestFocus();
         } else {
             showProgress(true);
-            mAuthTask = new UserLoginTask(email, password);
-            mAuthTask.execute((Void) null);
+            validarUsuario(email, password);
         }
+    }
+
+    private void validarUsuario(String mEmail, String mPassword) {
+        try {
+            //Modo demo VS Modo productivo
+            Usuario usuario = balanceService.login(mEmail, mPassword);
+            usuario = new Usuario("Usuario","Test", mEmail, mPassword,null,null);
+            if (usuario != null) {
+                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                Gson gson = new Gson();
+                String usuarioJson = gson.toJson(usuario);
+                intent.putExtra(GenConst.PARAMETRO_USUARIO, usuarioJson);
+                startActivity(intent);
+            } else {
+                Snackbar.make(mLoginFormView, "Usuario y/o clave incorrectos", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+            }
+        } catch(Exception ex) {
+            Log.e("ERROR", ex.getMessage());
+        }
+
+        showProgress(false);
     }
 
     /**
@@ -185,60 +208,5 @@ public class LoginActivity extends AppCompatActivity  {
         }
     }
 
-
-
-    /**
-     * Represents an asynchronous login/registration task used to authenticate
-     * the user.
-     */
-    public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
-
-        private final String mEmail;
-        private final String mPassword;
-
-        UserLoginTask(String email, String password) {
-            mEmail = email;
-            mPassword = password;
-        }
-
-        @Override
-        protected Boolean doInBackground(Void... params) {
-            try {
-                Usuario usuario = null;
-                usuario = balanceService.login(mEmail, mPassword);
-                if (usuario != null) {
-                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                    intent.putExtra(GenConst.PARAMETRO_USUARIO, usuario);
-                    startActivity(intent);
-                } else {
-                    Snackbar.make(new View(getApplicationContext()), "Usuario inexistente", Snackbar.LENGTH_LONG).setAction("Action", null).show();
-                }
-            } catch(Exception ex) {
-
-            }
-
-            // TODO: register the new account here.
-            return true;
-        }
-
-        @Override
-        protected void onPostExecute(final Boolean success) {
-            mAuthTask = null;
-            showProgress(false);
-
-            if (success) {
-                finish();
-            } else {
-                mPasswordView.setError(getString(R.string.error_incorrect_password));
-                mPasswordView.requestFocus();
-            }
-        }
-
-        @Override
-        protected void onCancelled() {
-            mAuthTask = null;
-            showProgress(false);
-        }
-    }
 }
 
