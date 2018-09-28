@@ -36,6 +36,13 @@ public class SqliteDb extends SQLiteOpenHelper {
     }
 
     @Override
+    public void onOpen(SQLiteDatabase db) {
+        db.execSQL("DROP TABLE IF EXISTS " + DbConst.TABLA_CATEGORIA);
+        db.execSQL("DROP TABLE IF EXISTS " + DbConst.TABLA_MOVIMIENTO);
+        db.execSQL("DROP TABLE IF EXISTS " + DbConst.TABLA_USUARIO);
+    }
+
+    @Override
     public void onCreate(SQLiteDatabase db) {
         db.beginTransaction();
         try {

@@ -19,11 +19,13 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 
+import ar.edu.ort.balance.balanceapp.db.SqliteDb;
 import ar.edu.ort.balance.balanceapp.dto.Usuario;
 import ar.edu.ort.balance.balanceapp.fragments.EstadisticaFragment;
 import ar.edu.ort.balance.balanceapp.fragments.GastosFragment;
 import ar.edu.ort.balance.balanceapp.fragments.IngresosFragment;
 import ar.edu.ort.balance.balanceapp.fragments.InicioFragment;
+import ar.edu.ort.balance.balanceapp.utils.DbConst;
 import ar.edu.ort.balance.balanceapp.utils.GenConst;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -118,6 +120,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             fragment = new EstadisticaFragment();
         } else if (id == R.id.nav_perfil) {
             intent = new Intent(MainActivity.this, PerfilActivity.class);
+            Gson gson = new Gson();
+            String usuarioJson = gson.toJson(usuario);
+            intent.putExtra(GenConst.PARAMETRO_USUARIO, usuarioJson);
         } else if (id == R.id.nav_cerrar) {
             intent = new Intent(MainActivity.this, LoginActivity.class);
         }

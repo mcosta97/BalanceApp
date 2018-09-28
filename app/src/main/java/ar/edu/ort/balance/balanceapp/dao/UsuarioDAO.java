@@ -82,8 +82,27 @@ public class UsuarioDAO {
      * @param usuario
      * @return si lo pudo editar
      */
-    public boolean editar(Usuario usuario) throws NoSuchMethodException {
-        throw new NoSuchMethodException("Metodo sin implementacion");
+    public boolean editar(Usuario usuario) {
+        boolean pudo = true;
+        ContentValues valores;
+
+        try {
+            valores = new ContentValues();
+            valores.put(DbConst.CAMPO_USUARIO_NOMBRE, usuario.getNombre());
+            valores.put(DbConst.CAMPO_USUARIO_APELLIDO, usuario.getApellido().toString());
+            valores.put(DbConst.CAMPO_USUARIO_MAIL, usuario.getMail());
+            valores.put(DbConst.CAMPO_USUARIO_PASS, usuario.getPass());
+
+            database = conexion.getWritableDatabase();
+            String where = DbConst.CAMPO_USUARIO_ID + "=" + usuario.getId();
+            database.update(DbConst.TABLA_USUARIO, valores, where, null);
+            database.close();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            pudo = false;
+        }
+
+        return pudo;
     }
 
     /**

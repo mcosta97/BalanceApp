@@ -3,6 +3,8 @@ package ar.edu.ort.balance.balanceapp;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
@@ -140,11 +142,11 @@ public class LoginActivity extends AppCompatActivity  {
         }
     }
 
-    private void validarUsuario(String mEmail, String mPassword) {
+    private void validarUsuario(final String mEmail, final String mPassword) {
         try {
             //Modo demo VS Modo productivo
             Usuario usuario = balanceService.login(mEmail, mPassword);
-            usuario = new Usuario("Usuario","Test", mEmail, mPassword,null,null);
+            usuario = new Usuario("Nombre", "Apellido", mEmail, "password",null, null);
             if (usuario != null) {
                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                 Gson gson = new Gson();
@@ -152,7 +154,13 @@ public class LoginActivity extends AppCompatActivity  {
                 intent.putExtra(GenConst.PARAMETRO_USUARIO, usuarioJson);
                 startActivity(intent);
             } else {
-                Snackbar.make(mLoginFormView, "Usuario y/o clave incorrectos", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                new AlertDialog.Builder(this).setMessage("Estas seguro de crear el usuario " + mEmail + "?").setPositiveButton("Si", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        balanceService.registrar("", "", mPassword, mEmail);
+                    }
+                }).setNegativeButton("No", null).show();
+                //Snackbar.make(mLoginFormView, "Usuario y/o clave incorrectos", Snackbar.LENGTH_LONG).setAction("Action", null).show();
             }
         } catch(Exception ex) {
             Log.e("ERROR", ex.getMessage());
