@@ -15,4 +15,22 @@
     <string name="error_invalid_password">La contraseña es muy corta</string>
     <string name="error_incorrect_password">Contraseña invalida</string>
     <string name="error_field_required">Campo requerido</string>
+
+    <!-- Strings related to user profile -->
+    <string name="datos_de_usuario">Datos de usuario</string>
+    <string name="profile_name">Nombre</string>
+    <string name="profile_surname">Apellido</string>
+    <string name="profile_mail">Correo electronico</string>
+    <string name="password_change">Cambio de contraseña</string>
+    <string name="profile_pass_old">Contraseña anterior</string>
+    <string name="profile_pass_new">Contraseña nueva</string>
+    <string name="profile_pass_renew">Repetir contraseña nueva</string>
+    <string name="profile_action_modify">Modificar</string>
+    <string name="profile_action_passChange">Cambiar contraseña</string>
+    <string name="title_activity_custom_list_view">custom_list_view</string>
+
+    <!-- Strings related to estadistics -->
+    <string name="tabGastosText">Gastos</string>
+    <string name="tabIngresosText">Ingresos</string>
+
 </resources>

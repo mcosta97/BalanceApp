@@ -12,7 +12,7 @@ public class Movimiento implements Serializable {
 
     public Movimiento() {}
 
-    public Movimiento(int id, String nombre, Date fecha, String descripcion, double valor, Categoria categoria) {
+    public Movimiento(int id, String nombre, Date fecha, double valor, Categoria categoria) {
         this.id = id;
         this.nombre = nombre;
         this.fecha = fecha;

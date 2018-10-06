@@ -6,23 +6,46 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Random;
 
 import ar.edu.ort.balance.balanceapp.R;
+import ar.edu.ort.balance.balanceapp.adapters.MovimientoAdapter;
+import ar.edu.ort.balance.balanceapp.dto.Movimiento;
+import ar.edu.ort.balance.balanceapp.service.RandomDataService;
+import ar.edu.ort.balance.balanceapp.utils.TipoMovimiento;
 
 public class IngresosFragment extends Fragment {
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        //returning our layout file
-        //change R.layout.yourlayoutfilename for each of your fragments
-        return inflater.inflate(R.layout.content_ingresos, container, false);
+        //Obtenemos la vista de Ingresos
+        View view = inflater.inflate(R.layout.content_ingresos, container, false);
+
+        //Obtenemos la referencia de la listView
+        ListView listView = (ListView) view.findViewById(R.id.ingresosListView);
+
+        //Una vez que tenemos los datos del usuario
+        List<Movimiento> ingresos = RandomDataService.generarMovimientos(TipoMovimiento.Ingreso, 44);
+
+        //Agregamos los datos + la actividad al movimiento adapter para insertarlo en el listView
+        MovimientoAdapter adapter = new MovimientoAdapter(getActivity(), ingresos);
+        listView.setAdapter(adapter);
+
+        //Devolvemos la view
+        return view;
     }
 
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        //you can set the title for your toolbar here for different fragments different titles
+        //Cambio titulo de la barra
         getActivity().setTitle("Ingresos");
     }
 }

@@ -40,6 +40,7 @@ import java.util.List;
 
 import ar.edu.ort.balance.balanceapp.dto.Usuario;
 import ar.edu.ort.balance.balanceapp.service.BalanceService;
+import ar.edu.ort.balance.balanceapp.service.RandomDataService;
 import ar.edu.ort.balance.balanceapp.utils.BalanceException;
 import ar.edu.ort.balance.balanceapp.utils.GenConst;
 
@@ -146,7 +147,7 @@ public class LoginActivity extends AppCompatActivity  {
         try {
             //Modo demo VS Modo productivo
             Usuario usuario = balanceService.login(mEmail, mPassword);
-            usuario = new Usuario("Nombre", "Apellido", mEmail, "password",null, null);
+            usuario = RandomDataService.generarUsuarios(1).get(0);
             if (usuario != null) {
                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                 Gson gson = new Gson();

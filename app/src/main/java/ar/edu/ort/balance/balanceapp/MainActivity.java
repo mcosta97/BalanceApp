@@ -19,13 +19,11 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 
-import ar.edu.ort.balance.balanceapp.db.SqliteDb;
 import ar.edu.ort.balance.balanceapp.dto.Usuario;
 import ar.edu.ort.balance.balanceapp.fragments.EstadisticaFragment;
 import ar.edu.ort.balance.balanceapp.fragments.GastosFragment;
 import ar.edu.ort.balance.balanceapp.fragments.IngresosFragment;
 import ar.edu.ort.balance.balanceapp.fragments.InicioFragment;
-import ar.edu.ort.balance.balanceapp.utils.DbConst;
 import ar.edu.ort.balance.balanceapp.utils.GenConst;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
