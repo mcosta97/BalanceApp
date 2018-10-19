@@ -9,12 +9,13 @@
     <!-- Strings related to login -->
     <string name="prompt_email">Correo electronico</string>
     <string name="prompt_password">Contraseña</string>
-    <string name="action_sign_in">Ingresa o registrate</string>
-    <string name="action_sign_in_short">Ingresa</string>
+    <string name="action_log_in">Ingresa</string>
+    <string name="action_sign_in">Registrate</string>
     <string name="error_invalid_email">Correo invalido</string>
     <string name="error_invalid_password">La contraseña es muy corta</string>
     <string name="error_incorrect_password">Contraseña invalida</string>
     <string name="error_field_required">Campo requerido</string>
+    <string name="error_user_not_found">Usuario y/o clave incorrectos</string>
 
     <!-- Strings related to user profile -->
     <string name="datos_de_usuario">Datos de usuario</string>
@@ -33,4 +34,9 @@
     <string name="tabGastosText">Gastos</string>
     <string name="tabIngresosText">Ingresos</string>
 
+    <!-- Strings related to register -->
+    <string name="registro_label">Registrate</string>
+    <string name="error_not_coincident_passwords">Las contraseñas no coinciden</string>
+    <string name="register_user_created">Usuario creado!</string>
+    <string name="register_user_error">Ocurrio un error!</string>
 </resources>

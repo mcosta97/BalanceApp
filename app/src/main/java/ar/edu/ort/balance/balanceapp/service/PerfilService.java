@@ -4,6 +4,8 @@ import android.content.Context;
 
 import ar.edu.ort.balance.balanceapp.dao.UsuarioDAO;
 import ar.edu.ort.balance.balanceapp.dto.Usuario;
+import ar.edu.ort.balance.balanceapp.utils.BalanceException;
+import ar.edu.ort.balance.balanceapp.utils.PerfilEnumResponse;
 
 public class PerfilService {
 
@@ -18,21 +20,22 @@ public class PerfilService {
      * @param passwords 0.Vieja | 1.Nueva | 2.ReNueva
      * @param usuario
      */
-    public boolean cambiarPassword(String[] passwords, Usuario usuario) {
-        boolean pudo = true;
+    public PerfilEnumResponse cambiarPassword(String[] passwords, Usuario usuario) {
+        PerfilEnumResponse pudo = PerfilEnumResponse.PASSWORD_OK;
         if (usuario != null) {
-            if (passwords[1].length() > 4 && passwords[2].length() > 4 && usuario.getPass().equals(passwords[0])) {
-                if (passwords[1].equals(passwords[2])) {
-                    usuario.setPass(passwords[1]);
+            PerfilEnumResponse passwordValida = validarPassword(passwords, usuario);
+            if (passwordValida.equals(PerfilEnumResponse.PASSWORD_OK)) {
+                usuario.setPass(passwords[1]);
+                try {
                     usuarioDAO.editar(usuario);
-                } else {
-                    pudo = false;
+                } catch (BalanceException be) {
+                    pudo = PerfilEnumResponse.PASSWORD_ERR;
                 }
             } else {
-                pudo = false;
+                pudo = passwordValida;
             }
         } else {
-            pudo = false;
+            pudo = PerfilEnumResponse.PASSWORD_ERR;
         }
 
         return pudo;
@@ -44,21 +47,52 @@ public class PerfilService {
      * @param usuario
      * @return
      */
-    public boolean editarPerfil(String[] datos, Usuario usuario) {
-        boolean pudo = true;
+    public PerfilEnumResponse editarPerfil(String[] datos, Usuario usuario) {
+        PerfilEnumResponse pudo = PerfilEnumResponse.PERFIL_OK;
         if (usuario != null) {
-            if (datos[0].length() > 5 && datos[1].length() > 5 && datos[2].length() > 5) {
+            PerfilEnumResponse perfilValido = validarPerfil(datos);
+            if (perfilValido.equals(PerfilEnumResponse.PERFIL_OK)) {
                 usuario.setNombre(datos[0]);
                 usuario.setApellido(datos[1]);
                 usuario.setMail(datos[2]);
-                usuarioDAO.editar(usuario);
+                try {
+                    usuarioDAO.editar(usuario);
+                } catch (BalanceException be) {
+                    pudo = PerfilEnumResponse.PERFIL_ERR;
+                }
             } else {
-                pudo = false;
+                pudo = perfilValido;
             }
         } else {
-            pudo = false;
+            pudo = PerfilEnumResponse.PERFIL_ERR;
         }
         return pudo;
+    }
+
+    private PerfilEnumResponse validarPassword(String[] datos, Usuario usuario) {
+        PerfilEnumResponse valido = PerfilEnumResponse.PASSWORD_OK;
+        if (datos[1].length() <= 4) {
+            valido = PerfilEnumResponse.PASSWORD_INVALID_NEW;
+        } else if (datos[2].length() <= 4) {
+            valido = PerfilEnumResponse.PASSWORD_INVALID_RENEW;
+        } else if (!usuario.getPass().equals(datos[0])) {
+            valido = PerfilEnumResponse.PASSWORD_INVALID_OLD;
+        } else if (!datos[1].equals(datos[2])) {
+            valido = PerfilEnumResponse.PASSWORD_NOT_EQUALS;
+        }
+        return valido;
+    }
+
+    private PerfilEnumResponse validarPerfil(String[] datos) {
+        PerfilEnumResponse valido = PerfilEnumResponse.PERFIL_OK;
+        if (datos[0].length() == 0) {
+            valido = PerfilEnumResponse.PERFIL_INVALID_NOMBRE;
+        } else if (datos[1].length() == 0) {
+            valido = PerfilEnumResponse.PERFIL_INVALID_APELLIDO;
+        } else if (datos[2].length() <= 8) {
+            valido = PerfilEnumResponse.PERFIL_INVALID_MAIL;
+        }
+        return valido;
     }
 
 }

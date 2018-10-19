@@ -8,16 +8,16 @@ public class Movimiento implements Serializable {
     private String nombre;
     private Date fecha;
     private double valor;
-    private Categoria categoria;
+    private int categoriaId;
 
     public Movimiento() {}
 
-    public Movimiento(int id, String nombre, Date fecha, double valor, Categoria categoria) {
+    public Movimiento(int id, String nombre, Date fecha, double valor, int categoriaId) {
         this.id = id;
         this.nombre = nombre;
         this.fecha = fecha;
         this.valor = valor;
-        this.categoria = categoria;
+        this.categoriaId = categoriaId;
     }
 
     public int getId() { return id; }
@@ -48,11 +48,11 @@ public class Movimiento implements Serializable {
         this.valor = valor;
     }
 
-    public Categoria getCategoria() {
-        return categoria;
+    public int getCategoriaId() {
+        return categoriaId;
     }
 
-    public void setCategoria(Categoria categoria) {
-        this.categoria = categoria;
+    public void setCategoriaId(int categoriaId) {
+        this.categoriaId = categoriaId;
     }
 }

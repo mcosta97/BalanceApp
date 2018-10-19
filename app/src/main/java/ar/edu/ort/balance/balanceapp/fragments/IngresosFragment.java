@@ -1,13 +1,20 @@
 package ar.edu.ort.balance.balanceapp.fragments;
 
+import android.app.AlertDialog;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
+import org.w3c.dom.Text;
+
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -34,7 +41,31 @@ public class IngresosFragment extends Fragment {
         List<Movimiento> ingresos = RandomDataService.generarMovimientos(TipoMovimiento.Ingreso, 44);
 
         //Agregamos los datos + la actividad al movimiento adapter para insertarlo en el listView
-        MovimientoAdapter adapter = new MovimientoAdapter(getActivity(), ingresos);
+        final MovimientoAdapter adapter = new MovimientoAdapter(getActivity(), ingresos);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int posicion, long id) {
+                Movimiento m = (Movimiento) adapter.getItem(posicion);
+                AlertDialog.Builder mBuilder = new AlertDialog.Builder(view.getContext());
+                View mView = getLayoutInflater().inflate(R.layout.dialog_detail, null);
+                TextView lblDetalle = (TextView) mView.findViewById(R.id.lblDetalleGasto);
+                lblDetalle.setText("Detalle del Ingreso");
+                TextView txtNombre = (TextView) mView.findViewById(R.id.txtDetalleGastoNombre);
+                TextView txtFecha = (TextView) mView.findViewById(R.id.txtDetalleGastoFecha);
+                TextView txtImporte = (TextView) mView.findViewById(R.id.txtDetalleGastoImporte);
+                TextView txtCategoria = (TextView) mView.findViewById(R.id.txtDetalleGastoCategoria);
+
+                txtNombre.setText(m.getNombre());
+                txtFecha.setText(new SimpleDateFormat("dd/MM/yyyy").format(m.getFecha()));
+                txtImporte.setText("$ " + String.valueOf(m.getValor()));
+                txtCategoria.setText(String.valueOf(m.getCategoriaId()));
+
+                mBuilder.setView(mView);
+                mBuilder.create().show();
+            }
+        });
+
         listView.setAdapter(adapter);
 
         //Devolvemos la view

@@ -10,7 +10,6 @@ public class DbConst {
     public static final String CAMPO_CATEGORIA_ID = "CATEGORIA_ID";
     public static final String CAMPO_CATEGORIA_USUARIO_ID = "USUARIO_ID";
     public static final String CAMPO_CATEGORIA_NOMBRE = "NOMBRE";
-    public static final String CAMPO_CATEGORIA_FECHA = "FECHA";
     public static final String CAMPO_CATEGORIA_VALOR = "VALOR";
     public static final String CAMPO_CATEGORIA_TIPO = "TIPO";
 
@@ -26,9 +25,9 @@ public class DbConst {
     public static final String TABLA_MOVIMIENTO = "Movimiento";
     public static final String CAMPO_MOVIMIENTO_ID = "MOVIMIENTO_ID";
     public static final String CAMPO_MOVIMIENTO_USUARIO_ID = "USUARIO_ID";
+    public static final String CAMPO_MOVIMIENTO_CATEGORIA_ID = "CATEGORIA_ID";
     public static final String CAMPO_MOVIMIENTO_NOMBRE = "NOMBRE";
     public static final String CAMPO_MOVIMIENTO_FECHA = "FECHA";
     public static final String CAMPO_MOVIMIENTO_VALOR = "VALOR";
-    public static final String CAMPO_MOVIMIENTO_CATEGORIA_ID = "CATEGORIA_ID";
 
 }

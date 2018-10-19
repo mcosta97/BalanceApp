@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/lblDetalleGasto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Detalle de Gasto"
+        android:textSize="30sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/lblDetalleGastoNombre"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="Nombre:"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lblDetalleGasto" />
+
+    <TextView
+        android:id="@+id/txtDetalleGastoNombre"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="TextView"
+        android:textSize="17sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/lblDetalleGastoNombre"
+        app:layout_constraintStart_toEndOf="@+id/lblDetalleGastoNombre" />
+
+    <TextView
+        android:id="@+id/lblDetalleGastoImporte"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="Importe:"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lblDetalleGastoNombre" />
+
+    <TextView
+        android:id="@+id/txtDetalleGastoImporte"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="TextView"
+        android:textSize="17sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/lblDetalleGastoImporte"
+        app:layout_constraintStart_toEndOf="@+id/lblDetalleGastoImporte" />
+
+    <TextView
+        android:id="@+id/lblDetalleGastoFecha"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="Fecha:"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lblDetalleGastoImporte" />
+
+    <TextView
+        android:id="@+id/txtDetalleGastoFecha"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="TextView"
+        android:textSize="17sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/lblDetalleGastoFecha"
+        app:layout_constraintStart_toEndOf="@+id/lblDetalleGastoFecha" />
+
+    <TextView
+        android:id="@+id/lblDetalleGastoCategoria"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="Categoría:"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lblDetalleGastoFecha" />
+
+    <TextView
+        android:id="@+id/txtDetalleGastoCategoria"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="TextView"
+        android:textSize="17sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/lblDetalleGastoCategoria"
+        app:layout_constraintStart_toEndOf="@+id/lblDetalleGastoCategoria" />
+
+</android.support.constraint.ConstraintLayout>

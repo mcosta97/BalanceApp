@@ -35,6 +35,8 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -61,6 +63,7 @@ public class LoginActivity extends AppCompatActivity  {
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
+    private AlertDialog registerDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,7 +87,7 @@ public class LoginActivity extends AppCompatActivity  {
             }
         });
 
-        Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
+        Button mEmailSignInButton = (Button) findViewById(R.id.email_log_in_button);
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -92,8 +95,56 @@ public class LoginActivity extends AppCompatActivity  {
             }
         });
 
+        Button mRegisterButton = (Button) findViewById(R.id.email_sign_in_button);
+        mRegisterButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder mBuilder = new AlertDialog.Builder(LoginActivity.this);
+                View mView = getLayoutInflater().inflate(R.layout.dialog_register, null);
+                final EditText mNombre = (EditText) mView.findViewById(R.id.txtNombre);
+                final EditText mApellido = (EditText) mView.findViewById(R.id.txtApellido);
+                final EditText mMail = (EditText) mView.findViewById(R.id.txtMail);
+                final EditText mPass = (EditText) mView.findViewById(R.id.txtPassword);
+                final EditText mRePass = (EditText) mView.findViewById(R.id.txtRePassword);
+                Button btnRegister = (Button) mView.findViewById(R.id.btnRegistrar);
+                btnRegister.setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        attemptSubmit(mNombre, mApellido, mMail, mPass, mRePass);
+                    }
+                });
+                mBuilder.setView(mView);
+                registerDialog = mBuilder.create();
+                registerDialog.show();
+            }
+        });
+
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
+    }
+
+    private void attemptSubmit(EditText nombre, EditText apellido, EditText mail, EditText pass, EditText rePass) {
+        // Reset errors.
+        mail.setError(null);
+        pass.setError(null);
+        rePass.setError(null);
+
+        View focusView = validarCampos(mail, pass, rePass);
+
+        if (focusView != null) {
+            focusView.requestFocus();
+        } else {
+            showProgress(true);
+            boolean registrado = balanceService.registrar(nombre.getText().toString(), apellido.getText().toString(), pass.getText().toString(), mail.getText().toString());
+            if (registrado) {
+                mEmailView.setText(mail.getText().toString());
+                Snackbar.make(mLoginFormView, R.string.register_user_created, Snackbar.LENGTH_LONG).setAction("Action", null).show();
+            } else {
+                Snackbar.make(mLoginFormView, R.string.register_user_error, Snackbar.LENGTH_LONG).setAction("Action", null).show();
+            }
+            showProgress(false);
+            if (registerDialog != null) registerDialog.dismiss();
+        }
     }
 
     /**
@@ -106,62 +157,62 @@ public class LoginActivity extends AppCompatActivity  {
         mEmailView.setError(null);
         mPasswordView.setError(null);
 
-        // Store values at the time of the login attempt.
-        String email = mEmailView.getText().toString();
-        String password = mPasswordView.getText().toString();
+        View focusView = validarCampos(mEmailView, mPasswordView, null);
 
-        boolean cancel = false;
-        View focusView = null;
-
-        // Valida la clave
-        if (TextUtils.isEmpty(password)) {
-            mPasswordView.setError(getString(R.string.error_field_required));
-            focusView = mPasswordView;
-            cancel = true;
-        } else if (!isPasswordValid(password)) {
-            mPasswordView.setError(getString(R.string.error_invalid_password));
-            focusView = mPasswordView;
-            cancel = true;
-        }
-
-        // Check for a valid email address.
-        if (TextUtils.isEmpty(email)) {
-            mEmailView.setError(getString(R.string.error_field_required));
-            focusView = mEmailView;
-            cancel = true;
-        } else if (!isEmailValid(email)) {
-            mEmailView.setError(getString(R.string.error_invalid_email));
-            focusView = mEmailView;
-            cancel = true;
-        }
-
-        if (cancel) {
+        if (focusView != null) {
             focusView.requestFocus();
         } else {
             showProgress(true);
-            validarUsuario(email, password);
+            validarUsuario(mEmailView.getText().toString(), mPasswordView.getText().toString());
         }
+    }
+
+    private View validarCampos(TextView email, TextView password, TextView rePassword) {
+        View focusView = null;
+
+        // Valida la clave
+        if (TextUtils.isEmpty(password.getText().toString())) {
+            password.setError(getString(R.string.error_field_required));
+            focusView = password;
+        } else if (!isPasswordValid(password.getText().toString())) {
+            password.setError(getString(R.string.error_invalid_password));
+            focusView = password;
+        }
+
+        // Check for a valid email address.
+        if (TextUtils.isEmpty(email.getText().toString())) {
+            email.setError(getString(R.string.error_field_required));
+            focusView = email;
+        } else if (!isEmailValid(email.getText().toString())) {
+            email.setError(getString(R.string.error_invalid_email));
+            focusView = email;
+        }
+
+        if (rePassword != null) {
+            if (TextUtils.isEmpty(rePassword.getText().toString())) {
+                rePassword.setError(getString(R.string.error_field_required));
+                focusView = rePassword;
+            } else if (!isPasswordValid(rePassword.getText().toString())) {
+                rePassword.setError(getString(R.string.error_invalid_password));
+                focusView = rePassword;
+            } else if (!password.getText().toString().equals(rePassword.getText().toString())) {
+                rePassword.setError(getString(R.string.error_not_coincident_passwords));
+                focusView = rePassword;
+            }
+        }
+
+        return focusView;
     }
 
     private void validarUsuario(final String mEmail, final String mPassword) {
         try {
-            //Modo demo VS Modo productivo
             Usuario usuario = balanceService.login(mEmail, mPassword);
-            usuario = RandomDataService.generarUsuarios(1).get(0);
             if (usuario != null) {
                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                Gson gson = new Gson();
-                String usuarioJson = gson.toJson(usuario);
-                intent.putExtra(GenConst.PARAMETRO_USUARIO, usuarioJson);
+                intent.putExtra(GenConst.PARAMETRO_USUARIO, new Gson().toJson(usuario));
                 startActivity(intent);
             } else {
-                new AlertDialog.Builder(this).setMessage("Estas seguro de crear el usuario " + mEmail + "?").setPositiveButton("Si", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        balanceService.registrar("", "", mPassword, mEmail);
-                    }
-                }).setNegativeButton("No", null).show();
-                //Snackbar.make(mLoginFormView, "Usuario y/o clave incorrectos", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                Snackbar.make(mLoginFormView, R.string.error_user_not_found, Snackbar.LENGTH_LONG).setAction("Action", null).show();
             }
         } catch(Exception ex) {
             Log.e("ERROR", ex.getMessage());

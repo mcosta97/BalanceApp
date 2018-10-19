@@ -10,20 +10,17 @@ public class Usuario implements Serializable {
     private String apellido;
     private String pass;
     private String mail;
-    private List<Movimiento> movimientos;
     private List<Categoria> categorias;
 
     public Usuario() {
-        movimientos = new ArrayList<>();
         categorias = new ArrayList<>();
     }
 
-    public Usuario(String nombre, String apellido, String mail, String pass, List<Movimiento> movimientos, List<Categoria> categorias) {
+    public Usuario(String nombre, String apellido, String mail, String pass, List<Categoria> categorias) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.pass = pass;
         this.mail = mail;
-        this.movimientos = movimientos;
         this.categorias = categorias;
     }
 
@@ -57,14 +54,6 @@ public class Usuario implements Serializable {
 
     public void setMail(String mail) {
         this.mail = mail;
-    }
-
-    public List<Movimiento> getMovimientos() {
-        return movimientos;
-    }
-
-    public void setMovimientos(List<Movimiento> movimientos) {
-        this.movimientos = movimientos;
     }
 
     public List<Categoria> getCategorias() {

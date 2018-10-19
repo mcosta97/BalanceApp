@@ -8,11 +8,12 @@ import ar.edu.ort.balance.balanceapp.dao.UsuarioDAO;
 import ar.edu.ort.balance.balanceapp.dto.Categoria;
 import ar.edu.ort.balance.balanceapp.dto.Movimiento;
 import ar.edu.ort.balance.balanceapp.dto.Usuario;
+import ar.edu.ort.balance.balanceapp.utils.BalanceException;
 
 public class BalanceService {
 
-    private CategoriaDAO categoriaDAO;
     private MovimientoDAO movimientoDAO;
+    private CategoriaDAO categoriaDAO;
     private UsuarioDAO usuarioDAO;
 
     public BalanceService(Context context) {
@@ -22,7 +23,11 @@ public class BalanceService {
     }
 
     public Usuario login(String user, String pass) {
-        return usuarioDAO.login(user, pass);
+        Usuario usuario = null;
+        try {
+            usuario = usuarioDAO.login(user, pass);
+        } catch (BalanceException be) {}
+        return usuario;
     }
 
     public boolean registrar(String nombre, String apellido, String pass, String mail) {
@@ -42,26 +47,62 @@ public class BalanceService {
     }
 
     public boolean crearMovimiento(Movimiento movimiento) {
-        return movimientoDAO.insertar(movimiento);
+        boolean pudo = true;
+        try {
+            movimientoDAO.insertar(movimiento);
+        } catch (BalanceException be) {
+            pudo = false;
+        }
+        return pudo;
     }
 
     public boolean editarMovimiento(Movimiento movimiento) {
-        return movimientoDAO.editar(movimiento);
+        boolean pudo = true;
+        try {
+            movimientoDAO.editar(movimiento);
+        } catch (BalanceException be) {
+            pudo = false;
+        }
+        return pudo;
     }
 
     public boolean borrarMovimiento(Movimiento movimiento) {
-        return movimientoDAO.eliminar(movimiento);
+        boolean pudo = true;
+        try {
+            movimientoDAO.eliminar(movimiento);
+        } catch (BalanceException be) {
+            pudo = false;
+        }
+        return pudo;
     }
 
     public boolean crearCategoria(Categoria categoria) {
-        return categoriaDAO.insertar(categoria);
+        boolean pudo = true;
+        try {
+            categoriaDAO.insertar(categoria);
+        } catch (BalanceException be) {
+            pudo = false;
+        }
+        return pudo;
     }
 
     public boolean editarCategoria(Categoria categoria) {
-        return categoriaDAO.editar(categoria);
+        boolean pudo = true;
+        try {
+            categoriaDAO.editar(categoria);
+        } catch (BalanceException be) {
+            pudo = false;
+        }
+        return pudo;
     }
 
     public boolean borrarCategoria(Categoria categoria) {
-        return categoriaDAO.eliminar(categoria);
+        boolean pudo = true;
+        try {
+            categoriaDAO.eliminar(categoria);
+        } catch (BalanceException be) {
+            pudo = false;
+        }
+        return pudo;
     }
 }

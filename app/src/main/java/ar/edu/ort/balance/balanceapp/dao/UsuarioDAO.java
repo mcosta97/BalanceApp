@@ -8,6 +8,7 @@ import android.util.Log;
 
 import ar.edu.ort.balance.balanceapp.db.SqliteDb;
 import ar.edu.ort.balance.balanceapp.dto.Usuario;
+import ar.edu.ort.balance.balanceapp.utils.BalanceException;
 import ar.edu.ort.balance.balanceapp.utils.DbConst;
 
 public class UsuarioDAO {
@@ -25,13 +26,13 @@ public class UsuarioDAO {
      * Obtiene las categorias
      * @return categorias
      */
-    public Usuario login(String user, String pass) {
+    public Usuario login(String user, String pass) throws BalanceException {
         Usuario usuario = null;
 
         try {
             database = conexion.getReadableDatabase();
             String[] columns = {DbConst.CAMPO_USUARIO_ID, DbConst.CAMPO_USUARIO_NOMBRE, DbConst.CAMPO_USUARIO_APELLIDO, DbConst.CAMPO_USUARIO_PASS, DbConst.CAMPO_USUARIO_MAIL};
-            Cursor cursor = database.query(DbConst.TABLA_USUARIO, columns, "user=? and pass=?", new String[] {user, pass}, null, null, null);
+            Cursor cursor = database.query(DbConst.TABLA_USUARIO, columns, "MAIL=? AND PASS=?", new String[] {user, pass}, null, null, null);
 
             while(cursor.moveToNext()) {
                 usuario = new Usuario();
@@ -44,8 +45,8 @@ public class UsuarioDAO {
             }
             cursor.close();
         } catch (Exception ex) {
-            Log.e("ERROR", "ERROR EN LOGIN: " + ex.getMessage());
-            return usuario;
+            Log.e("ERROR", "EN LOGIN: " + ex.getMessage());
+            throw new BalanceException("No se pudo ingresar", ex);
         }
 
         return usuario;
@@ -56,8 +57,7 @@ public class UsuarioDAO {
      * @param usuario
      * @return si pudo insertar
      */
-    public boolean insertar(Usuario usuario) {
-        boolean pudo = true;
+    public void insertar(Usuario usuario) throws BalanceException {
         ContentValues valores;
 
         try {
@@ -70,11 +70,9 @@ public class UsuarioDAO {
             database.insert(DbConst.TABLA_USUARIO, null, valores);
             database.close();
         } catch (Exception ex) {
-            Log.e("ERROR", "ERROR AL INSERTAR USUARIO: " + ex.getMessage());
-            pudo = false;
+            Log.e("ERROR", "AL INSERTAR USUARIO: " + ex.getMessage());
+            throw new BalanceException("No se pudo guardar el usuario", ex);
         }
-
-        return pudo;
     }
 
     /**
@@ -82,10 +80,8 @@ public class UsuarioDAO {
      * @param usuario
      * @return si lo pudo editar
      */
-    public boolean editar(Usuario usuario) {
-        boolean pudo = true;
+    public void editar(Usuario usuario) throws BalanceException {
         ContentValues valores;
-
         try {
             valores = new ContentValues();
             valores.put(DbConst.CAMPO_USUARIO_NOMBRE, usuario.getNombre());
@@ -98,11 +94,8 @@ public class UsuarioDAO {
             database.update(DbConst.TABLA_USUARIO, valores, where, null);
             database.close();
         } catch (Exception ex) {
-            ex.printStackTrace();
-            pudo = false;
+            throw new BalanceException("No se pudo editar el usuario", ex);
         }
-
-        return pudo;
     }
 
     /**
@@ -110,19 +103,15 @@ public class UsuarioDAO {
      * @param usuario
      * @return si lo pudo eliminar
      */
-    public boolean eliminar(Usuario usuario) {
-        boolean pudo = true;
-
+    public void eliminar(Usuario usuario) throws  BalanceException {
         try {
             database = conexion.getWritableDatabase();
             String where = DbConst.CAMPO_USUARIO_ID + "=?" + usuario.getId();
             database.delete(DbConst.TABLA_USUARIO, where, null);
             database.close();
         } catch (Exception ex) {
-            Log.e("ERROR", "ERROR AL ELIMINAR: " + ex.getMessage());
-            pudo = false;
+            Log.e("ERROR", "AL ELIMINAR: " + ex.getMessage());
+            throw new BalanceException("No se pudo eliminar el usuario", ex);
         }
-
-        return pudo;
     }
 }

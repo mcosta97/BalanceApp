@@ -12,7 +12,6 @@ public class SqliteDb extends SQLiteOpenHelper {
                                         DbConst.CAMPO_CATEGORIA_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                                         DbConst.CAMPO_CATEGORIA_NOMBRE + " TEXT, " +
                                         DbConst.CAMPO_CATEGORIA_USUARIO_ID + " TEXT, " +
-                                        DbConst.CAMPO_CATEGORIA_FECHA +  " TEXT, " +
                                         DbConst.CAMPO_CATEGORIA_TIPO + " INTEGER, " +
                                         DbConst.CAMPO_CATEGORIA_VALOR + " REAL)";
 
@@ -36,13 +35,6 @@ public class SqliteDb extends SQLiteOpenHelper {
     }
 
     @Override
-    public void onOpen(SQLiteDatabase db) {
-        db.execSQL("DROP TABLE IF EXISTS " + DbConst.TABLA_CATEGORIA);
-        db.execSQL("DROP TABLE IF EXISTS " + DbConst.TABLA_MOVIMIENTO);
-        db.execSQL("DROP TABLE IF EXISTS " + DbConst.TABLA_USUARIO);
-    }
-
-    @Override
     public void onCreate(SQLiteDatabase db) {
         db.beginTransaction();
         try {
@@ -60,7 +52,10 @@ public class SqliteDb extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
+        db.execSQL("DROP TABLE IF EXISTS " + DbConst.TABLA_CATEGORIA);
+        db.execSQL("DROP TABLE IF EXISTS " + DbConst.TABLA_MOVIMIENTO);
+        db.execSQL("DROP TABLE IF EXISTS " + DbConst.TABLA_USUARIO);
+        onCreate(db);
     }
 
 }
