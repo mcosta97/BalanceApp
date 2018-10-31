@@ -57,9 +57,7 @@ public class PerfilActivity extends AppCompatActivity {
     }
 
     private TextWatcher getTextWatcher(final TypeWatcher tipo) {
-        TextWatcher watcher = null;
-
-        watcher = new TextWatcher() {
+        return new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
 
@@ -75,7 +73,6 @@ public class PerfilActivity extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable editable) {}
         };
-        return watcher;
     }
 
     @Override

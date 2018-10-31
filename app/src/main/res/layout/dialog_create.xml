@@ -24,11 +24,11 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:text="Nombre:"
-        app:layout_constraintBaseline_toBaselineOf="@+id/editText3"
-        app:layout_constraintEnd_toStartOf="@+id/editText3" />
+        app:layout_constraintBaseline_toBaselineOf="@+id/txtCreateNombre"
+        app:layout_constraintEnd_toStartOf="@+id/txtCreateNombre" />
 
     <EditText
-        android:id="@+id/editText3"
+        android:id="@+id/txtCreateNombre"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -43,18 +43,18 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:text="Importe:"
-        app:layout_constraintBaseline_toBaselineOf="@+id/editText4"
-        app:layout_constraintEnd_toStartOf="@+id/editText4" />
+        app:layout_constraintBaseline_toBaselineOf="@+id/txtCreateImporte"
+        app:layout_constraintEnd_toStartOf="@+id/txtCreateImporte" />
 
     <EditText
-        android:id="@+id/editText4"
+        android:id="@+id/txtCreateImporte"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:ems="10"
         android:inputType="numberDecimal"
-        app:layout_constraintStart_toStartOf="@+id/editText3"
-        app:layout_constraintTop_toBottomOf="@+id/editText3" />
+        app:layout_constraintStart_toStartOf="@+id/txtCreateNombre"
+        app:layout_constraintTop_toBottomOf="@+id/txtCreateNombre" />
 
     <TextView
         android:id="@+id/lblCreateFecha"
@@ -62,18 +62,18 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:text="Fecha:"
-        app:layout_constraintBaseline_toBaselineOf="@+id/editText5"
-        app:layout_constraintEnd_toStartOf="@+id/editText5" />
+        app:layout_constraintBaseline_toBaselineOf="@+id/txtCreateFecha"
+        app:layout_constraintEnd_toStartOf="@+id/txtCreateFecha" />
 
     <EditText
-        android:id="@+id/editText5"
+        android:id="@+id/txtCreateFecha"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:ems="10"
         android:inputType="date"
-        app:layout_constraintStart_toStartOf="@+id/editText4"
-        app:layout_constraintTop_toBottomOf="@+id/editText4" />
+        app:layout_constraintStart_toStartOf="@+id/txtCreateImporte"
+        app:layout_constraintTop_toBottomOf="@+id/txtCreateImporte" />
 
     <TextView
         android:id="@+id/lblCreateCategoria"
@@ -81,21 +81,21 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:text="Categoria:"
-        app:layout_constraintEnd_toStartOf="@+id/spinner"
-        app:layout_constraintTop_toBottomOf="@+id/spinner" />
+        app:layout_constraintEnd_toStartOf="@+id/txtCreateCategoria"
+        app:layout_constraintTop_toBottomOf="@+id/txtCreateCategoria" />
 
     <Spinner
-        android:id="@+id/spinner"
+        android:id="@+id/txtCreateCategoria"
         android:layout_width="212dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText5" />
+        app:layout_constraintTop_toBottomOf="@+id/txtCreateFecha" />
 
     <Button
         android:id="@+id/btnCancelar"
-        android:layout_width="181dp"
+        android:layout_width="160dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginStart="8dp"
@@ -105,7 +105,7 @@
 
     <Button
         android:id="@+id/btnAceptar"
-        android:layout_width="180dp"
+        android:layout_width="160dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"

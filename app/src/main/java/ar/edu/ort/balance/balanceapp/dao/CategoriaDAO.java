@@ -41,7 +41,7 @@ public class CategoriaDAO {
 
             while(cursor.moveToNext()) {
                 categoria = new Categoria();
-                categoria.setId(cursor.getInt(cursor.getColumnIndex(DbConst.CAMPO_CATEGORIA_ID)));
+                categoria.setId(cursor.getLong(cursor.getColumnIndex(DbConst.CAMPO_CATEGORIA_ID)));
                 categoria.setNombre(cursor.getString(cursor.getColumnIndex(DbConst.CAMPO_CATEGORIA_NOMBRE)));
                 categoria.setTipoMovimiento(TipoMovimiento.values()[cursor.getInt(cursor.getColumnIndex(DbConst.CAMPO_CATEGORIA_TIPO))]);
                 categoria.setTotal(cursor.getFloat(cursor.getColumnIndex(DbConst.CAMPO_CATEGORIA_VALOR)));

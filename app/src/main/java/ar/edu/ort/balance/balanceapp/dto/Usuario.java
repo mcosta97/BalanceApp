@@ -1,21 +1,36 @@
 package ar.edu.ort.balance.balanceapp.dto;
 
+import android.arch.persistence.room.ColumnInfo;
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
+import android.arch.persistence.room.PrimaryKey;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity
 public class Usuario implements Serializable {
-    private int id;
+
+    @PrimaryKey
+    private Long id;
+
+    @ColumnInfo(name="Nombre")
     private String nombre;
+
+    @ColumnInfo(name="Apellido")
     private String apellido;
+
+    @ColumnInfo(name="Pass")
     private String pass;
+
+    @ColumnInfo(name="Mail")
     private String mail;
+
+    @Ignore
     private List<Categoria> categorias;
 
-    public Usuario() {
-        categorias = new ArrayList<>();
-    }
-
+    @Ignore
     public Usuario(String nombre, String apellido, String mail, String pass, List<Categoria> categorias) {
         this.nombre = nombre;
         this.apellido = apellido;
@@ -24,11 +39,23 @@ public class Usuario implements Serializable {
         this.categorias = categorias;
     }
 
-    public int getId() {
+    public Usuario() {
+        categorias = new ArrayList<>();
+    }
+    
+    public Usuario(Long id, String nombre, String apellido, String pass, String mail) {
+        this.id = id;
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.pass = pass;
+        this.mail = mail;
+    }
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

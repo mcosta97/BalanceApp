@@ -9,8 +9,8 @@
     <!-- Strings related to login -->
     <string name="prompt_email">Correo electronico</string>
     <string name="prompt_password">Contraseña</string>
-    <string name="action_log_in">Ingresa</string>
-    <string name="action_sign_in">Registrate</string>
+    <string name="action_log_in">Ingresar</string>
+    <string name="action_sign_in">Crea tu cuenta</string>
     <string name="error_invalid_email">Correo invalido</string>
     <string name="error_invalid_password">La contraseña es muy corta</string>
     <string name="error_incorrect_password">Contraseña invalida</string>

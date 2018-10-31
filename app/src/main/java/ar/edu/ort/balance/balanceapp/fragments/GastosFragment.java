@@ -9,8 +9,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
@@ -42,15 +44,60 @@ public class GastosFragment extends Fragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int posicion, long id) {
-                Movimiento m = (Movimiento) adapter.getItem(posicion);
-                AlertDialog.Builder mBuilder = new AlertDialog.Builder(view.getContext());
+                final Movimiento m = (Movimiento) adapter.getItem(posicion);
+                final AlertDialog.Builder mBuilder = new AlertDialog.Builder(view.getContext());
                 View mView = getLayoutInflater().inflate(R.layout.dialog_detail, null);
-                TextView lblDetalle = (TextView) mView.findViewById(R.id.lblDetalleGasto);
-                lblDetalle.setText("Detalle del Gasto");
+                TextView lblTitulo = (TextView) mView.findViewById(R.id.lblDetalleGasto);
+                lblTitulo.setText("Detalle del Gasto");
                 TextView txtNombre = (TextView) mView.findViewById(R.id.txtDetalleGastoNombre);
                 TextView txtFecha = (TextView) mView.findViewById(R.id.txtDetalleGastoFecha);
                 TextView txtImporte = (TextView) mView.findViewById(R.id.txtDetalleGastoImporte);
                 TextView txtCategoria = (TextView) mView.findViewById(R.id.txtDetalleGastoCategoria);
+
+                mBuilder.setView(mView);
+                final AlertDialog alertDialog= mBuilder.create();
+
+                Button btnCerrar = (Button) mView.findViewById(R.id.btnCerrar);
+                btnCerrar.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        alertDialog.dismiss();
+                    }
+                });
+
+                Button btnEditar = (Button) mView.findViewById(R.id.btnEditar);
+                btnEditar.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        AlertDialog.Builder cBuilder = new AlertDialog.Builder(view.getContext());
+                        View cView = getLayoutInflater().inflate(R.layout.dialog_create, null);
+                        TextView lblTitulo = (TextView) cView.findViewById(R.id.lblCreateTitle);
+                        lblTitulo.setText("Editar Gasto");
+                        TextView txtNombre = (TextView) cView.findViewById(R.id.txtCreateNombre);
+                        TextView txtFecha = (TextView) cView.findViewById(R.id.txtCreateFecha);
+                        TextView txtImporte = (TextView) cView.findViewById(R.id.txtCreateImporte);
+                        Spinner txtCategoria = (Spinner) cView.findViewById(R.id.txtCreateCategoria);
+                        cBuilder.setView(cView);
+
+                        txtNombre.setText(m.getNombre());
+                        txtFecha.setText(new SimpleDateFormat("dd/MM/yyyy").format(m.getFecha()));
+                        txtImporte.setText("-$ " + String.valueOf(m.getValor()));
+                        txtImporte.setTextColor(Color.RED);
+                        //txtCategoria.setText(String.valueOf(m.getCategoriaId()));
+
+                        final AlertDialog alertDialog1 = cBuilder.create();
+
+                        Button btnCerrar = (Button) cView.findViewById(R.id.btnCancelar);
+                        btnCerrar.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                alertDialog.dismiss();
+                            }
+                        });
+
+                        alertDialog1.show();
+                    }
+                });
 
                 txtNombre.setText(m.getNombre());
                 txtFecha.setText(new SimpleDateFormat("dd/MM/yyyy").format(m.getFecha()));
@@ -58,8 +105,7 @@ public class GastosFragment extends Fragment {
                 txtImporte.setTextColor(Color.RED);
                 txtCategoria.setText(String.valueOf(m.getCategoriaId()));
 
-                mBuilder.setView(mView);
-                mBuilder.create().show();
+                alertDialog.show();
             }
         });
 

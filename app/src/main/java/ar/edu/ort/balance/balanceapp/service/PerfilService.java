@@ -1,8 +1,10 @@
 package ar.edu.ort.balance.balanceapp.service;
 
+import android.arch.persistence.room.Room;
 import android.content.Context;
 
 import ar.edu.ort.balance.balanceapp.dao.UsuarioDAO;
+import ar.edu.ort.balance.balanceapp.db.BalanceDatabase;
 import ar.edu.ort.balance.balanceapp.dto.Usuario;
 import ar.edu.ort.balance.balanceapp.utils.BalanceException;
 import ar.edu.ort.balance.balanceapp.utils.PerfilEnumResponse;
@@ -12,7 +14,8 @@ public class PerfilService {
     private UsuarioDAO usuarioDAO;
 
     public PerfilService(Context context) {
-        usuarioDAO = new UsuarioDAO(context);
+        BalanceDatabase db = Room.databaseBuilder(context, BalanceDatabase.class, "BalanceApp").build();
+        usuarioDAO = db.usuarioDAO();
     }
 
     /**
@@ -28,7 +31,7 @@ public class PerfilService {
                 usuario.setPass(passwords[1]);
                 try {
                     usuarioDAO.editar(usuario);
-                } catch (BalanceException be) {
+                } catch (Exception be) {
                     pudo = PerfilEnumResponse.PASSWORD_ERR;
                 }
             } else {
@@ -57,7 +60,7 @@ public class PerfilService {
                 usuario.setMail(datos[2]);
                 try {
                     usuarioDAO.editar(usuario);
-                } catch (BalanceException be) {
+                } catch (Exception be) {
                     pudo = PerfilEnumResponse.PERFIL_ERR;
                 }
             } else {

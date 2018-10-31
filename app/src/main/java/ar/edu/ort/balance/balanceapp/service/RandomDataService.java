@@ -44,7 +44,7 @@ public class RandomDataService {
 
     public static List<Categoria> generarCategorias(int cantidad) {
         List<Categoria> categorias = new ArrayList<>();
-        for(int i = 0; i < cantidad; i++) {
+        for(Long i = 0L; i < cantidad; i++) {
             Random r = new Random();
             categorias.add(new Categoria(i, nombreCategorias[r.nextInt(nombreCategorias.length)], r.nextDouble(), TipoMovimiento.values()[r.nextInt(TipoMovimiento.values().length)], null));
         }
@@ -59,9 +59,9 @@ public class RandomDataService {
      */
     public static List<Movimiento> generarMovimientos(TipoMovimiento tipo, int cantidad) {
         List<Movimiento> movimientos = new ArrayList<>();
-        for(int i = 0; i < cantidad; i++) {
+        for(Long i = 0L; i < cantidad; i++) {
             Random r = new Random();
-            movimientos.add(new Movimiento(i, nombresMovimientos[tipo.ordinal()][r.nextInt(nombresMovimientos.length)], new Date(), r.nextDouble(), i));
+            movimientos.add(new Movimiento(i, nombresMovimientos[tipo.ordinal()][r.nextInt(nombresMovimientos.length)], new Date(), r.nextInt(1000), i.intValue()));
         }
         return movimientos;
     }

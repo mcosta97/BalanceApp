@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -56,13 +57,31 @@ public class IngresosFragment extends Fragment {
                 TextView txtImporte = (TextView) mView.findViewById(R.id.txtDetalleGastoImporte);
                 TextView txtCategoria = (TextView) mView.findViewById(R.id.txtDetalleGastoCategoria);
 
+                mBuilder.setView(mView);
+                final AlertDialog alertDialog= mBuilder.create();
+
+                Button btnCerrar = (Button) mView.findViewById(R.id.btnCerrar);
+                btnCerrar.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        alertDialog.dismiss();
+                    }
+                });
+
+                Button btnEditar = (Button) mView.findViewById(R.id.btnEditar);
+                btnEditar.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                    }
+                });
+
                 txtNombre.setText(m.getNombre());
                 txtFecha.setText(new SimpleDateFormat("dd/MM/yyyy").format(m.getFecha()));
                 txtImporte.setText("$ " + String.valueOf(m.getValor()));
                 txtCategoria.setText(String.valueOf(m.getCategoriaId()));
 
-                mBuilder.setView(mView);
-                mBuilder.create().show();
+                alertDialog.show();
             }
         });
 

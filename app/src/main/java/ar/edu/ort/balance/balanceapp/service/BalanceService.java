@@ -1,10 +1,12 @@
 package ar.edu.ort.balance.balanceapp.service;
 
+import android.arch.persistence.room.Room;
 import android.content.Context;
 
 import ar.edu.ort.balance.balanceapp.dao.CategoriaDAO;
 import ar.edu.ort.balance.balanceapp.dao.MovimientoDAO;
 import ar.edu.ort.balance.balanceapp.dao.UsuarioDAO;
+import ar.edu.ort.balance.balanceapp.db.BalanceDatabase;
 import ar.edu.ort.balance.balanceapp.dto.Categoria;
 import ar.edu.ort.balance.balanceapp.dto.Movimiento;
 import ar.edu.ort.balance.balanceapp.dto.Usuario;
@@ -17,16 +19,14 @@ public class BalanceService {
     private UsuarioDAO usuarioDAO;
 
     public BalanceService(Context context) {
+        BalanceDatabase db = Room.databaseBuilder(context.getApplicationContext(), BalanceDatabase.class, "BalanceApp").allowMainThreadQueries().build();
         categoriaDAO = new CategoriaDAO(context);
         movimientoDAO = new MovimientoDAO(context);
-        usuarioDAO = new UsuarioDAO(context);
+        usuarioDAO = db.usuarioDAO();
     }
 
     public Usuario login(String user, String pass) {
-        Usuario usuario = null;
-        try {
-            usuario = usuarioDAO.login(user, pass);
-        } catch (BalanceException be) {}
+        Usuario usuario = usuarioDAO.login(user, pass);
         return usuario;
     }
 

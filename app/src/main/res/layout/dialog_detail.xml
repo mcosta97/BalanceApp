@@ -105,4 +105,24 @@
         app:layout_constraintBaseline_toBaselineOf="@+id/lblDetalleGastoCategoria"
         app:layout_constraintStart_toEndOf="@+id/lblDetalleGastoCategoria" />
 
+    <Button
+        android:id="@+id/btnCerrar"
+        android:layout_width="160dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="Cerrar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lblDetalleGastoCategoria" />
+
+    <Button
+        android:id="@+id/btnEditar"
+        android:layout_width="160dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="8dp"
+        android:text="Editar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtDetalleGastoCategoria" />
+
 </android.support.constraint.ConstraintLayout>

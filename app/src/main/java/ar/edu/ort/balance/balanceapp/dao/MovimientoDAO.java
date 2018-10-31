@@ -39,7 +39,7 @@ public class MovimientoDAO {
 
             while(cursor.moveToNext()) {
                 movimiento = new Movimiento();
-                movimiento.setId(cursor.getInt(cursor.getColumnIndex(DbConst.CAMPO_MOVIMIENTO_ID)));
+                movimiento.setId(cursor.getLong(cursor.getColumnIndex(DbConst.CAMPO_MOVIMIENTO_ID)));
                 movimiento.setNombre(cursor.getString(cursor.getColumnIndex(DbConst.CAMPO_MOVIMIENTO_NOMBRE)));
                 movimiento.setFecha(Date.valueOf(cursor.getString(cursor.getColumnIndex(DbConst.CAMPO_MOVIMIENTO_FECHA))));
                 movimiento.setValor(cursor.getFloat(cursor.getColumnIndex(DbConst.CAMPO_MOVIMIENTO_VALOR)));
@@ -69,7 +69,7 @@ public class MovimientoDAO {
 
             while(cursor.moveToNext()) {
                 movimiento = new Movimiento();
-                movimiento.setId(cursor.getInt(cursor.getColumnIndex(DbConst.CAMPO_MOVIMIENTO_ID)));
+                movimiento.setId(cursor.getLong(cursor.getColumnIndex(DbConst.CAMPO_MOVIMIENTO_ID)));
                 movimiento.setNombre(cursor.getString(cursor.getColumnIndex(DbConst.CAMPO_MOVIMIENTO_NOMBRE)));
                 movimiento.setFecha(Date.valueOf(cursor.getString(cursor.getColumnIndex(DbConst.CAMPO_MOVIMIENTO_FECHA))));
                 movimiento.setValor(cursor.getFloat(cursor.getColumnIndex(DbConst.CAMPO_MOVIMIENTO_VALOR)));

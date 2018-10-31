@@ -6,7 +6,10 @@ import java.util.List;
 import ar.edu.ort.balance.balanceapp.utils.TipoMovimiento;
 
 public class Categoria implements Serializable {
-    private int id;
+
+    private static final long serialVersionUID = 1234567863323467L;
+
+    private Long id;
     private String nombre;
     private double total;
     private TipoMovimiento tipoMovimiento;
@@ -14,7 +17,7 @@ public class Categoria implements Serializable {
 
     public Categoria() {}
 
-    public Categoria(int id, String nombre, double total, TipoMovimiento tipoMovimiento, List<Movimiento> movimientos) {
+    public Categoria(Long id, String nombre, double total, TipoMovimiento tipoMovimiento, List<Movimiento> movimientos) {
         this.id = id;
         this.nombre = nombre;
         this.total = total;
@@ -22,11 +25,18 @@ public class Categoria implements Serializable {
         this.movimientos = movimientos;
     }
 
-    public int getId() {
+    public Categoria(Long id, String nombre, double total, TipoMovimiento tipoMovimiento) {
+        this.id = id;
+        this.nombre = nombre;
+        this.total = total;
+        this.tipoMovimiento = tipoMovimiento;
+    }
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -52,13 +62,5 @@ public class Categoria implements Serializable {
 
     public void setTipoMovimiento(TipoMovimiento tipoMovimiento) {
         this.tipoMovimiento = tipoMovimiento;
-    }
-
-    public List<Movimiento> getMovimientos() {
-        return movimientos;
-    }
-
-    public void setMovimientos(List<Movimiento> movimientos) {
-        this.movimientos = movimientos;
     }
 }

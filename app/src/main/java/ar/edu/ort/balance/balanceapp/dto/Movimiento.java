@@ -4,7 +4,10 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class Movimiento implements Serializable {
-    private int id;
+
+    private static final long serialVersionUID = 1234544490123467L;
+
+    private Long id;
     private String nombre;
     private Date fecha;
     private double valor;
@@ -12,7 +15,8 @@ public class Movimiento implements Serializable {
 
     public Movimiento() {}
 
-    public Movimiento(int id, String nombre, Date fecha, double valor, int categoriaId) {
+    public Movimiento(Long id, String nombre, Date fecha, double valor,
+            int categoriaId) {
         this.id = id;
         this.nombre = nombre;
         this.fecha = fecha;
@@ -20,9 +24,9 @@ public class Movimiento implements Serializable {
         this.categoriaId = categoriaId;
     }
 
-    public int getId() { return id; }
+    public Long getId() { return id; }
 
-    public void  setId(int id) { this.id = id; }
+    public void  setId(Long id) { this.id = id; }
 
     public String getNombre() {
         return nombre;

@@ -95,7 +95,7 @@ public class LoginActivity extends AppCompatActivity  {
             }
         });
 
-        Button mRegisterButton = (Button) findViewById(R.id.email_sign_in_button);
+        TextView mRegisterButton = (TextView) findViewById(R.id.email_sign_in_button);
         mRegisterButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
