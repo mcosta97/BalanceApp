@@ -43,39 +43,7 @@ public class IngresosFragment extends Fragment {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AlertDialog.Builder cBuilder = new AlertDialog.Builder(view.getContext());
-                final View cView = getLayoutInflater().inflate(R.layout.dialog_create, null);
-                setFormData(null, cView, 2);
-                cBuilder.setView(cView);
-                final AlertDialog cAlertDialog = cBuilder.create();
-
-                Button btnCancelar = (Button) cView.findViewById(R.id.btnCancelar);
-                btnCancelar.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        cAlertDialog.dismiss();
-                    }
-                });
-
-                Button btnAceptar = (Button) cView.findViewById(R.id.btnAceptar);
-                btnAceptar.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Movimiento movimientoNuevo = new Movimiento();
-                        movimientoNuevo.setNombre(((TextView) cView.findViewById(R.id.txtCreateNombre)).getText().toString());
-                        movimientoNuevo.setValor(Double.parseDouble(((TextView) cView.findViewById(R.id.txtCreateImporte)).getText().toString()));
-                        SimpleDateFormat dateFormat = new SimpleDateFormat(GenConst.FORMATO_FECHA);
-                        Date date = null;
-                        try {
-                            date = dateFormat.parse(((TextView) cView.findViewById(R.id.txtCreateFecha)).getText().toString());
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        movimientoNuevo.setFecha(date);
-                        BalanceService.crearMovimiento(movimientoNuevo);
-                    }
-                });
-                cAlertDialog.show();
+                createMovement(view);
             }
         });
 
@@ -88,45 +56,7 @@ public class IngresosFragment extends Fragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int posicion, long id) {
-                final Movimiento m = (Movimiento) adapter.getItem(posicion);
-                AlertDialog.Builder mBuilder = new AlertDialog.Builder(view.getContext());
-                View mView = getLayoutInflater().inflate(R.layout.dialog_detail, null);
-                setFormData(m, mView, 0);
-                mBuilder.setView(mView);
-                final AlertDialog alertDialog= mBuilder.create();
-
-                Button btnCerrar = mView.findViewById(R.id.btnCerrar);
-                btnCerrar.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        alertDialog.dismiss();
-                    }
-                });
-
-                Button btnEditar = mView.findViewById(R.id.btnEditar);
-                btnEditar.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        AlertDialog.Builder cBuilder = new AlertDialog.Builder(view.getContext());
-                        View cView = getLayoutInflater().inflate(R.layout.dialog_create, null);
-                        setFormData(m, cView, 1);
-                        cBuilder.setView(cView);
-
-                        final AlertDialog alertDialog1 = cBuilder.create();
-
-                        Button btnCancelar = (Button) cView.findViewById(R.id.btnCancelar);
-                        btnCancelar.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                alertDialog1.dismiss();
-                            }
-                        });
-
-                        alertDialog1.show();
-                    }
-                });
-
-                alertDialog.show();
+                getListDetail(adapter, posicion, view);
             }
         });
 
@@ -181,6 +111,84 @@ public class IngresosFragment extends Fragment {
                 }
             });
         }
+    }
+
+    private void getListDetail(MovimientoAdapter adapter, int posicion, View view) {
+        final Movimiento m = (Movimiento) adapter.getItem(posicion);
+        AlertDialog.Builder mBuilder = new AlertDialog.Builder(view.getContext());
+        View mView = getLayoutInflater().inflate(R.layout.dialog_detail, null);
+        setFormData(m, mView, 0);
+        mBuilder.setView(mView);
+        final AlertDialog alertDialog= mBuilder.create();
+
+        Button btnCerrar = mView.findViewById(R.id.btnCerrar);
+        btnCerrar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                alertDialog.dismiss();
+            }
+        });
+
+        Button btnEditar = mView.findViewById(R.id.btnEditar);
+        btnEditar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder cBuilder = new AlertDialog.Builder(view.getContext());
+                View cView = getLayoutInflater().inflate(R.layout.dialog_create, null);
+                setFormData(m, cView, 1);
+                cBuilder.setView(cView);
+
+                final AlertDialog alertDialog1 = cBuilder.create();
+
+                Button btnCancelar = (Button) cView.findViewById(R.id.btnCancelar);
+                btnCancelar.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        alertDialog1.dismiss();
+                    }
+                });
+
+                alertDialog1.show();
+            }
+        });
+
+        alertDialog.show();
+    }
+
+    private void createMovement(View view) {
+        AlertDialog.Builder cBuilder = new AlertDialog.Builder(view.getContext());
+        final View cView = getLayoutInflater().inflate(R.layout.dialog_create, null);
+        setFormData(null, cView, 2);
+        cBuilder.setView(cView);
+        final AlertDialog cAlertDialog = cBuilder.create();
+
+        Button btnCancelar = (Button) cView.findViewById(R.id.btnCancelar);
+        btnCancelar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                cAlertDialog.dismiss();
+            }
+        });
+
+        Button btnAceptar = (Button) cView.findViewById(R.id.btnAceptar);
+        btnAceptar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Movimiento movimientoNuevo = new Movimiento();
+                movimientoNuevo.setNombre(((TextView) cView.findViewById(R.id.txtCreateNombre)).getText().toString());
+                movimientoNuevo.setValor(Double.parseDouble(((TextView) cView.findViewById(R.id.txtCreateImporte)).getText().toString()));
+                SimpleDateFormat dateFormat = new SimpleDateFormat(GenConst.FORMATO_FECHA);
+                Date date = null;
+                try {
+                    date = dateFormat.parse(((TextView) cView.findViewById(R.id.txtCreateFecha)).getText().toString());
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                movimientoNuevo.setFecha(date);
+                BalanceService.crearMovimiento(movimientoNuevo);
+            }
+        });
+        cAlertDialog.show();
     }
 
     @Override
