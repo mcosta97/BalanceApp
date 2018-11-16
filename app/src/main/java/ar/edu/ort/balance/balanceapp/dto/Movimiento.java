@@ -1,22 +1,41 @@
 package ar.edu.ort.balance.balanceapp.dto;
 
+import android.arch.persistence.room.ColumnInfo;
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
+import android.arch.persistence.room.PrimaryKey;
+import android.arch.persistence.room.TypeConverters;
+
 import java.io.Serializable;
 import java.util.Date;
 
+import ar.edu.ort.balance.balanceapp.converter.BalanceConverter;
+
+@Entity
 public class Movimiento implements Serializable {
 
-    private static final long serialVersionUID = 1234544490123467L;
-
+    @PrimaryKey
     private Long id;
+
+    @ColumnInfo(name = "Nombre")
     private String nombre;
+
+    @TypeConverters(BalanceConverter.class)
     private Date fecha;
+
+    @ColumnInfo(name = "Valor")
     private double valor;
+
+    @ColumnInfo(name = "Usuario_Id")
+    private int usuarioId;
+
+    @ColumnInfo(name = "Categoria_Id")
     private int categoriaId;
 
     public Movimiento() {}
 
-    public Movimiento(Long id, String nombre, Date fecha, double valor,
-            int categoriaId) {
+    @Ignore
+    public Movimiento(Long id, String nombre, Date fecha, double valor, int categoriaId) {
         this.id = id;
         this.nombre = nombre;
         this.fecha = fecha;
@@ -58,5 +77,13 @@ public class Movimiento implements Serializable {
 
     public void setCategoriaId(int categoriaId) {
         this.categoriaId = categoriaId;
+    }
+
+    public int getUsuarioId() {
+        return usuarioId;
+    }
+
+    public void setUsuarioId(int usuarioId) {
+        this.usuarioId = usuarioId;
     }
 }

@@ -3,8 +3,6 @@ package ar.edu.ort.balance.balanceapp;
 import android.support.v4.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -20,15 +18,13 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 
 import ar.edu.ort.balance.balanceapp.dto.Usuario;
-import ar.edu.ort.balance.balanceapp.fragments.EstadisticaFragment;
-import ar.edu.ort.balance.balanceapp.fragments.GastosFragment;
-import ar.edu.ort.balance.balanceapp.fragments.IngresosFragment;
-import ar.edu.ort.balance.balanceapp.fragments.InicioFragment;
+import ar.edu.ort.balance.balanceapp.factory.FragmentFactory;
 import ar.edu.ort.balance.balanceapp.utils.GenConst;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private Usuario usuario = null;
+    private int anterior = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,10 +48,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
+
+        if (anterior != -1) {
+            setFragment(anterior);
         } else {
-            super.onBackPressed();
+            if (drawer.isDrawerOpen(GravityCompat.START)) {
+                drawer.closeDrawer(GravityCompat.START);
+            } else {
+                super.onBackPressed();
+            }
         }
     }
 
@@ -100,32 +101,32 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Fragment fragment = null;
         Intent intent = null;
 
-        if (id == R.id.nav_inicio) {
-            fragment = new InicioFragment();
-        } else if (id == R.id.nav_gastos) {
-            fragment = new GastosFragment();
-        } else if (id == R.id.nav_ingresos) {
-            fragment = new IngresosFragment();
-        } else if (id == R.id.nav_estadistica) {
-            fragment = new EstadisticaFragment();
-        } else if (id == R.id.nav_perfil) {
-            intent = new Intent(MainActivity.this, PerfilActivity.class);
-            Gson gson = new Gson();
-            String usuarioJson = gson.toJson(usuario);
-            intent.putExtra(GenConst.PARAMETRO_USUARIO, usuarioJson);
-        } else if (id == R.id.nav_cerrar) {
-            intent = new Intent(MainActivity.this, LoginActivity.class);
-        }
+        if (anterior != -1) anterior = -1;
+
+        FragmentFactory.setContext(getApplicationContext());
+        fragment = FragmentFactory.getFragment(id);
 
         if (fragment != null) {
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.replace(R.id.content_frame, fragment);
             ft.commit();
+        } else {
+            switch(id) {
+                case R.id.nav_perfil:
+                    intent = new Intent(MainActivity.this, PerfilActivity.class);
+                    Gson gson = new Gson();
+                    String usuarioJson = gson.toJson(usuario);
+                    intent.putExtra(GenConst.PARAMETRO_USUARIO, usuarioJson);
+                    break;
+
+                case R.id.nav_cerrar:
+                    intent = new Intent(MainActivity.this, LoginActivity.class);
+                    break;
+            }
+            if (intent != null) startActivity(intent);
         }
 
-        if (intent != null) {
-            startActivity(intent);
-        }
+        anterior = id;
     }
 
 

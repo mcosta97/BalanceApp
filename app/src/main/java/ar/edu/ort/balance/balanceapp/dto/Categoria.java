@@ -1,34 +1,46 @@
 package ar.edu.ort.balance.balanceapp.dto;
 
+import android.arch.persistence.room.ColumnInfo;
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
+import android.arch.persistence.room.PrimaryKey;
+import android.arch.persistence.room.TypeConverters;
+
 import java.io.Serializable;
 import java.util.List;
 
+import ar.edu.ort.balance.balanceapp.converter.BalanceConverter;
+import ar.edu.ort.balance.balanceapp.db.BalanceDatabase;
 import ar.edu.ort.balance.balanceapp.utils.TipoMovimiento;
 
+@Entity
 public class Categoria implements Serializable {
 
-    private static final long serialVersionUID = 1234567863323467L;
-
+    @PrimaryKey
     private Long id;
+
+    @ColumnInfo(name = "Nombre")
     private String nombre;
+
+    @ColumnInfo(name = "Total")
     private double total;
+
+    @TypeConverters(BalanceConverter.class)
     private TipoMovimiento tipoMovimiento;
+
+    @ColumnInfo(name = "Usuario_Id")
+    private String usuarioId;
+
+    @TypeConverters(BalanceConverter.class)
     private List<Movimiento> movimientos;
 
     public Categoria() {}
 
-    public Categoria(Long id, String nombre, double total, TipoMovimiento tipoMovimiento, List<Movimiento> movimientos) {
-        this.id = id;
-        this.nombre = nombre;
-        this.total = total;
-        this.tipoMovimiento = tipoMovimiento;
-        this.movimientos = movimientos;
-    }
-
-    public Categoria(Long id, String nombre, double total, TipoMovimiento tipoMovimiento) {
-        this.id = id;
-        this.nombre = nombre;
-        this.total = total;
+    @Ignore
+    public Categoria(Long i, String nombreCategoria, double v, TipoMovimiento tipoMovimiento) {
+        this.id = i;
+        this.nombre = nombreCategoria;
+        this.total = v;
         this.tipoMovimiento = tipoMovimiento;
     }
 
@@ -62,5 +74,21 @@ public class Categoria implements Serializable {
 
     public void setTipoMovimiento(TipoMovimiento tipoMovimiento) {
         this.tipoMovimiento = tipoMovimiento;
+    }
+
+    public List<Movimiento> getMovimientos() {
+        return movimientos;
+    }
+
+    public void setMovimientos(List<Movimiento> movimientos) {
+        this.movimientos = movimientos;
+    }
+
+    public String getUsuarioId() {
+        return usuarioId;
+    }
+
+    public void setUsuarioId(String usuarioId) {
+        this.usuarioId = usuarioId;
     }
 }

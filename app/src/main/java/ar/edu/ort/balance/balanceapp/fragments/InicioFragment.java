@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import ar.edu.ort.balance.balanceapp.R;
 
 public class InicioFragment extends Fragment {
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -25,4 +26,5 @@ public class InicioFragment extends Fragment {
         //you can set the title for your toolbar here for different fragments different titles
         getActivity().setTitle("Balance");
     }
+
 }

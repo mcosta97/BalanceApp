@@ -46,7 +46,7 @@ public class RandomDataService {
         List<Categoria> categorias = new ArrayList<>();
         for(Long i = 0L; i < cantidad; i++) {
             Random r = new Random();
-            categorias.add(new Categoria(i, nombreCategorias[r.nextInt(nombreCategorias.length)], r.nextDouble(), TipoMovimiento.values()[r.nextInt(TipoMovimiento.values().length)], null));
+            categorias.add(new Categoria(i, nombreCategorias[r.nextInt(nombreCategorias.length)], r.nextDouble(), TipoMovimiento.values()[r.nextInt(TipoMovimiento.values().length)]));
         }
         return categorias;
     }

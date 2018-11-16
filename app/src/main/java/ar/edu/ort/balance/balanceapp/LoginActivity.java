@@ -53,9 +53,6 @@ import static android.Manifest.permission.READ_CONTACTS;
  */
 public class LoginActivity extends AppCompatActivity  {
 
-    /**
-     * Keep track of the login task to ensure we can cancel it if requested.
-     */
     private BalanceService balanceService = null;
 
     // UI references.
@@ -99,23 +96,23 @@ public class LoginActivity extends AppCompatActivity  {
         mRegisterButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                AlertDialog.Builder mBuilder = new AlertDialog.Builder(LoginActivity.this);
-                View mView = getLayoutInflater().inflate(R.layout.dialog_register, null);
-                final EditText mNombre = (EditText) mView.findViewById(R.id.txtNombre);
-                final EditText mApellido = (EditText) mView.findViewById(R.id.txtApellido);
-                final EditText mMail = (EditText) mView.findViewById(R.id.txtMail);
-                final EditText mPass = (EditText) mView.findViewById(R.id.txtPassword);
-                final EditText mRePass = (EditText) mView.findViewById(R.id.txtRePassword);
-                Button btnRegister = (Button) mView.findViewById(R.id.btnRegistrar);
-                btnRegister.setOnClickListener(new OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        attemptSubmit(mNombre, mApellido, mMail, mPass, mRePass);
-                    }
-                });
-                mBuilder.setView(mView);
-                registerDialog = mBuilder.create();
-                registerDialog.show();
+            AlertDialog.Builder mBuilder = new AlertDialog.Builder(LoginActivity.this);
+            View mView = getLayoutInflater().inflate(R.layout.dialog_register, null);
+            final EditText mNombre = (EditText) mView.findViewById(R.id.txtNombre);
+            final EditText mApellido = (EditText) mView.findViewById(R.id.txtApellido);
+            final EditText mMail = (EditText) mView.findViewById(R.id.txtMail);
+            final EditText mPass = (EditText) mView.findViewById(R.id.txtPassword);
+            final EditText mRePass = (EditText) mView.findViewById(R.id.txtRePassword);
+            Button btnRegister = (Button) mView.findViewById(R.id.btnRegistrar);
+            btnRegister.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    attemptSubmit(mNombre, mApellido, mMail, mPass, mRePass);
+                }
+            });
+            mBuilder.setView(mView);
+            registerDialog = mBuilder.create();
+            registerDialog.show();
             }
         });
 
@@ -147,11 +144,6 @@ public class LoginActivity extends AppCompatActivity  {
         }
     }
 
-    /**
-     * Attempts to sign in or register the account specified by the login form.
-     * If there are form errors (invalid email, missing fields, etc.), the
-     * errors are presented and no actual login attempt is made.
-     */
     private void attemptLogin() {
         // Reset errors.
         mEmailView.setError(null);

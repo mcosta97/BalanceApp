@@ -3,30 +3,29 @@ package ar.edu.ort.balance.balanceapp.service;
 import android.arch.persistence.room.Room;
 import android.content.Context;
 
-import ar.edu.ort.balance.balanceapp.dao.CategoriaDAO;
-import ar.edu.ort.balance.balanceapp.dao.MovimientoDAO;
-import ar.edu.ort.balance.balanceapp.dao.UsuarioDAO;
+import ar.edu.ort.balance.balanceapp.dao.CategoriaDao;
+import ar.edu.ort.balance.balanceapp.dao.MovimientoDao;
+import ar.edu.ort.balance.balanceapp.dao.UsuarioDao;
 import ar.edu.ort.balance.balanceapp.db.BalanceDatabase;
 import ar.edu.ort.balance.balanceapp.dto.Categoria;
 import ar.edu.ort.balance.balanceapp.dto.Movimiento;
 import ar.edu.ort.balance.balanceapp.dto.Usuario;
-import ar.edu.ort.balance.balanceapp.utils.BalanceException;
 
 public class BalanceService {
 
-    private MovimientoDAO movimientoDAO;
-    private CategoriaDAO categoriaDAO;
-    private UsuarioDAO usuarioDAO;
+    private static MovimientoDao movimientoDao;
+    private CategoriaDao categoriaDao;
+    private UsuarioDao usuarioDao;
 
     public BalanceService(Context context) {
         BalanceDatabase db = Room.databaseBuilder(context.getApplicationContext(), BalanceDatabase.class, "BalanceApp").allowMainThreadQueries().build();
-        categoriaDAO = new CategoriaDAO(context);
-        movimientoDAO = new MovimientoDAO(context);
-        usuarioDAO = db.usuarioDAO();
+        categoriaDao = db.categoriaDao();
+        movimientoDao = db.movimientoDao();
+        usuarioDao = db.usuarioDao();
     }
 
     public Usuario login(String user, String pass) {
-        Usuario usuario = usuarioDAO.login(user, pass);
+        Usuario usuario = usuarioDao.login(user, pass);
         return usuario;
     }
 
@@ -38,7 +37,7 @@ public class BalanceService {
         nuevoUsuario.setMail(mail);
 
         try {
-            usuarioDAO.insertar(nuevoUsuario);
+            usuarioDao.insertar(nuevoUsuario);
         } catch (Exception ex) {
             return false;
         }
@@ -46,31 +45,31 @@ public class BalanceService {
         return true;
     }
 
-    public boolean crearMovimiento(Movimiento movimiento) {
+    public static boolean crearMovimiento(Movimiento movimiento) {
         boolean pudo = true;
         try {
-            movimientoDAO.insertar(movimiento);
-        } catch (BalanceException be) {
+            movimientoDao.insertar(movimiento);
+        } catch (Exception be) {
             pudo = false;
         }
         return pudo;
     }
 
-    public boolean editarMovimiento(Movimiento movimiento) {
+    public static boolean editarMovimiento(Movimiento movimiento) {
         boolean pudo = true;
         try {
-            movimientoDAO.editar(movimiento);
-        } catch (BalanceException be) {
+            movimientoDao.editar(movimiento);
+        } catch (Exception be) {
             pudo = false;
         }
         return pudo;
     }
 
-    public boolean borrarMovimiento(Movimiento movimiento) {
+    public static boolean borrarMovimiento(Movimiento movimiento) {
         boolean pudo = true;
         try {
-            movimientoDAO.eliminar(movimiento);
-        } catch (BalanceException be) {
+            movimientoDao.eliminar(movimiento);
+        } catch (Exception be) {
             pudo = false;
         }
         return pudo;
@@ -79,8 +78,8 @@ public class BalanceService {
     public boolean crearCategoria(Categoria categoria) {
         boolean pudo = true;
         try {
-            categoriaDAO.insertar(categoria);
-        } catch (BalanceException be) {
+            categoriaDao.insertar(categoria);
+        } catch (Exception be) {
             pudo = false;
         }
         return pudo;
@@ -89,8 +88,8 @@ public class BalanceService {
     public boolean editarCategoria(Categoria categoria) {
         boolean pudo = true;
         try {
-            categoriaDAO.editar(categoria);
-        } catch (BalanceException be) {
+            categoriaDao.editar(categoria);
+        } catch (Exception be) {
             pudo = false;
         }
         return pudo;
@@ -99,8 +98,8 @@ public class BalanceService {
     public boolean borrarCategoria(Categoria categoria) {
         boolean pudo = true;
         try {
-            categoriaDAO.eliminar(categoria);
-        } catch (BalanceException be) {
+            categoriaDao.eliminar(categoria);
+        } catch (Exception be) {
             pudo = false;
         }
         return pudo;

@@ -1,4 +1,4 @@
-package ar.edu.ort.balance.balanceapp.adapters;
+package ar.edu.ort.balance.balanceapp.adapter;
 
 import android.app.Activity;
 import android.content.Context;

@@ -3,19 +3,18 @@ package ar.edu.ort.balance.balanceapp.service;
 import android.arch.persistence.room.Room;
 import android.content.Context;
 
-import ar.edu.ort.balance.balanceapp.dao.UsuarioDAO;
+import ar.edu.ort.balance.balanceapp.dao.UsuarioDao;
 import ar.edu.ort.balance.balanceapp.db.BalanceDatabase;
 import ar.edu.ort.balance.balanceapp.dto.Usuario;
-import ar.edu.ort.balance.balanceapp.utils.BalanceException;
 import ar.edu.ort.balance.balanceapp.utils.PerfilEnumResponse;
 
 public class PerfilService {
 
-    private UsuarioDAO usuarioDAO;
+    private UsuarioDao usuarioDAO;
 
     public PerfilService(Context context) {
         BalanceDatabase db = Room.databaseBuilder(context, BalanceDatabase.class, "BalanceApp").build();
-        usuarioDAO = db.usuarioDAO();
+        usuarioDAO = db.usuarioDao();
     }
 
     /**

@@ -2,12 +2,14 @@ package ar.edu.ort.balance.balanceapp.dto;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
+import android.arch.persistence.room.TypeConverters;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
+import ar.edu.ort.balance.balanceapp.converter.BalanceConverter;
 
 @Entity
 public class Usuario implements Serializable {
@@ -27,28 +29,11 @@ public class Usuario implements Serializable {
     @ColumnInfo(name="Mail")
     private String mail;
 
-    @Ignore
+    @TypeConverters(BalanceConverter.class)
     private List<Categoria> categorias;
-
-    @Ignore
-    public Usuario(String nombre, String apellido, String mail, String pass, List<Categoria> categorias) {
-        this.nombre = nombre;
-        this.apellido = apellido;
-        this.pass = pass;
-        this.mail = mail;
-        this.categorias = categorias;
-    }
 
     public Usuario() {
         categorias = new ArrayList<>();
-    }
-    
-    public Usuario(Long id, String nombre, String apellido, String pass, String mail) {
-        this.id = id;
-        this.nombre = nombre;
-        this.apellido = apellido;
-        this.pass = pass;
-        this.mail = mail;
     }
 
     public Long getId() {
